@@ -271,6 +271,24 @@ Keyboard::Keyboard () :
  *****************************************************************************/
 Key Keyboard::key_hit () {
     Key invalid;  // nicht explizit initialisierte Tasten sind ungueltig
+
+    //check control port if outb is set
+    while (!(ctrl_port.inb() & outb)) {
+    }
+    //read in data
+    code = data_port.inb();
+
+    //check if data is not from ps2 via auxb
+    if (ctrl_port.inb() & auxb) {
+        return invalid;
+    }
+
+    if (key_decoded ()) {
+        return gather;
+    }
+
+
+
          
     /* Hier muss Code eingefuegt werden. */
 
@@ -342,4 +360,7 @@ void Keyboard::set_led(char led, bool on) {
         data &= ~led; // Bit in der Maske löschen
     }
     ctrl_port.outb (data);
+
+    // ack von der Tastatur lesen
+    data_port.inb();
 }

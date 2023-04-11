@@ -14,6 +14,13 @@
 void keyboard_demo() {
 
     Keyboard kbd;
+    kbd.set_led(0,true);
+    while (true)
+    {
+        kout.show(2,2,kbd.key_hit().ascii(),0x0A);
+    }
+    
+    
 
 
 }
