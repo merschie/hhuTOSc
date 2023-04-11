@@ -12,7 +12,14 @@
 
 
 void text_demo() {
+   kout.clear();
+   kout.setpos(5, 10);
+   kout.print("Hello World!\nzeilenumbruch", 27, 0x09);
+   kout.show(8, 11, 'H', 0x0A);
+   kout.setpos(1, 0);
+   kout.print("Hello World!", 12, 0x08);
+   kout.setpos(0, 1);
+   kout.print("Hello World!", 12, 0x0C);
+   kout.scrollup();
    
-   /* Hier muss Code eingefuegt werden */
-
-}
+   }

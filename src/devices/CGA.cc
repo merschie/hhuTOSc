@@ -12,6 +12,8 @@
  *                  Aenderungen von Michael Schoettner, HHU, 21.8.2016       *
  *****************************************************************************/
 #include "devices/CGA.h"
+int CGA::x = 0;
+int CGA::y = 0;
 
 
 /*****************************************************************************
@@ -22,7 +24,9 @@
 void CGA::setpos (int x, int y) {
 
     /* Hier muess Code eingefuegt werden */
-
+    CGA::x = x;
+    CGA::y = y;
+    
 }
 
 
@@ -36,7 +40,7 @@ void CGA::setpos (int x, int y) {
 void CGA::getpos (int &x, int &y) {
     
     /* Hier muess Code eingefuegt werden */
-    
+    //return CGA::x, CGA::y;
 }
 
 
@@ -52,9 +56,11 @@ void CGA::getpos (int &x, int &y) {
  *      attrib      Attributbyte fuer das Zeichen                            *
  *****************************************************************************/
 void CGA::show (int x, int y, char character, unsigned char attrib) {
-    
-    /* Hier muess Code eingefuegt werden */
-    
+    attrib = attribute(GREEN, BLACK, true);
+    CGA::x = x;
+    CGA::y = y;
+    print(&character, 1, attrib);
+       
 }
 
 
@@ -70,9 +76,21 @@ void CGA::show (int x, int y, char character, unsigned char attrib) {
  *      attrib      Attributbyte fuer alle Zeichen der Zeichenkette          *
  *****************************************************************************/
 void CGA::print (char* string, int n, unsigned char attrib) {
-    
-    /* Hier muess Code eingefuegt werden */
-    
+    char *CGA_START = (char *)0xb8000;
+    char *pos;
+    pos = CGA_START + 2*(x + y*80);
+    for (int i = 0; i < n; i++) {
+        if (string[i] == '\n') {
+            i++;
+            y++;
+            x = 0;
+            pos = CGA_START + 2*(x + y*80);
+        }
+        *pos = string[i];
+        *(pos + 1) = attrib;
+        pos += 2;
+    }
+    x=x+n;    
 }
 
 
@@ -84,9 +102,15 @@ void CGA::print (char* string, int n, unsigned char attrib) {
  *                  gefuellt.                                                *
  *****************************************************************************/
 void CGA::scrollup () {
-    
-    /* Hier muess Code eingefuegt werden */
-    
+    char *old = (char *)0xb8000 + 160;
+    char *neww = (char *)0xb8000;
+    for (int i = 0; i < 25; i++) {
+        for (int j = 0; j < 80*2; j++) {
+            *neww = *old;
+            old +=1;
+            neww +=1;
+        }
+    }
 }
 
 
@@ -96,9 +120,13 @@ void CGA::scrollup () {
  * Beschreibung:    Lösche den Textbildschirm.                               *
  *****************************************************************************/
 void CGA::clear () {
-    
-    /* Hier muess Code eingefuegt werden */
-    
+    char *CGA_START = (char *)0xb8000;
+    for (int i = 0; i < 25; i++) {
+        for (int j = 0; j < 80*2; j++) {
+            *CGA_START = 0x0;
+            CGA_START +=1;
+        }
+    }
 }
 
 
@@ -116,6 +144,15 @@ void CGA::clear () {
  *****************************************************************************/
 unsigned char CGA::attribute (CGA::color bg, CGA::color fg, bool blink) {
     
-    /* Hier muess Code eingefuegt werden */
+    char* CGA_START = (char *)0xb8000;
+    char* pos;
+    pos = CGA_START + 2*(x + y*80);
+    unsigned char attrib = 0;
+    attrib = attrib | bg;
+    attrib = attrib | fg << 4;
+    if (blink) {
+        attrib = attrib | 0x80;
+    }
+    return attrib;
     
 }
