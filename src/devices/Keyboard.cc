@@ -312,6 +312,10 @@ void Keyboard::reboot () {
  *                  und 31 (sehr langsam).                                   *
  *****************************************************************************/
 void Keyboard::set_repeat_rate (int speed, int delay) {
+    int data = 0xF3;
+    data |= (speed & 0x1F) << 5;
+    data |= (delay & 0x03) << 0;
+    ctrl_port.outb (data);
 
     /* Hier muss Code eingefuegt werden. */
 
@@ -327,8 +331,15 @@ void Keyboard::set_repeat_rate (int speed, int delay) {
  *      led:        Welche LED? (caps_lock, num_lock, scroll_lock)           *
  *      on:         0 = aus, 1 = an                                          *
  *****************************************************************************/
-void Keyboard::set_led (char led, bool on) {
-
-    /* Hier muss Code eingefuegt werden. */
-
+void Keyboard::set_led(char led, bool on) {
+    // Bit 0, 1 und 2 im Datenbyte steuern die LEDs Caps Lock, Num Lock und Scroll Lock
+    int data = 0xED;
+    if (on) {
+        // LED einschalten
+        data |= led; // Bit in der Maske setzen
+    } else {
+        // LED ausschalten
+        data &= ~led; // Bit in der Maske löschen
+    }
+    ctrl_port.outb (data);
 }

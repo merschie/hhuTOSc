@@ -13,6 +13,7 @@
 
 void keyboard_demo() {
 
-    /* Hier muess Code eingefuegt werden */
+    Keyboard kbd;
+
 
 }
