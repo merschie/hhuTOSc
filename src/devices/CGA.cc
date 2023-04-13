@@ -57,9 +57,13 @@ void CGA::getpos (int &x, int &y) {
  *****************************************************************************/
 void CGA::show (int x, int y, char character, unsigned char attrib) {
     attrib = attribute(GREEN, BLACK, true);
+    int tempx = CGA::x;
+    int tempy = CGA::y;
     CGA::x = x;
     CGA::y = y;
     print(&character, 1, attrib);
+    CGA::x = tempx;
+    CGA::y = tempy;
        
 }
 
@@ -144,9 +148,6 @@ void CGA::clear () {
  *****************************************************************************/
 unsigned char CGA::attribute (CGA::color bg, CGA::color fg, bool blink) {
     
-    char* CGA_START = (char *)0xb8000;
-    char* pos;
-    pos = CGA_START + 2*(x + y*80);
     unsigned char attrib = 0;
     attrib = attrib | bg;
     attrib = attrib | fg << 4;
