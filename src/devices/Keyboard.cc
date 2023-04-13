@@ -286,12 +286,6 @@ Key Keyboard::key_hit () {
     if (key_decoded ()) {
         return gather;
     }
-
-
-
-         
-    /* Hier muss Code eingefuegt werden. */
-
     return invalid;
 }
 
@@ -351,13 +345,16 @@ void Keyboard::set_repeat_rate (int speed, int delay) {
  *****************************************************************************/
 void Keyboard::set_led(char led, bool on) {
     // Bit 0, 1 und 2 im Datenbyte steuern die LEDs Caps Lock, Num Lock und Scroll Lock
+    
     int data = 0xED;
     if (on) {
         // LED einschalten
-        data |= led; // Bit in der Maske setzen
+        leds |= led; // Bit in der Maske setzen
+        data |= leds; // Bit in der Maske setzen
     } else {
         // LED ausschalten
-        data &= ~led; // Bit in der Maske löschen
+        leds &= ~led; // Bit in der Maske löschen
+        data &= ~leds; // Bit in der Maske löschen
     }
     ctrl_port.outb (data);
 
