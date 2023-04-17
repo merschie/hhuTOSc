@@ -1,29 +1,26 @@
 /*****************************************************************************
  *                                                                           *
- *                            H E A P D E M O                                *
+ *                        K E Y B O A R D D E M O                            *
  *                                                                           *
  *---------------------------------------------------------------------------*
- * Beschreibung:    Demonstration der dynamischen Speicherverwaltung.        *
+ * Beschreibung:    Testausgaben für den CGA-Treiber.                        *
  *                                                                           *
- * Autor:           Michael Schoettner, HHU, 27.12.2016                      *
+ * Autor:           Michael Schoettner, HHU, 26.10.2018                      *
  *****************************************************************************/
 
 #include "kernel/Globals.h"
-#include "kernel/Allocator.h"
-#include "user/aufgabe2/HeapDemo.h"
-// #include "user/MyObj.h"
 
 
-// Hilfsfunktion: Auf Return-Taste warten
-void waitForReturn() {
+void keyboard_demo() {
 
-    /* hier muss Code eingefuegt werden */
+    Keyboard kbd;
+    kbd.set_led(4,true);
+    while (true)
+    {
+        kout.show(2,2,kbd.key_hit().ascii(),0x0A);
+    }
+    
+    
 
-}
-
-
-void heap_demo() {
-
-   /* hier muss Code eingefuegt werden */
 
 }
