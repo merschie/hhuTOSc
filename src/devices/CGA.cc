@@ -38,7 +38,8 @@ void CGA::setpos (int x, int y) {
  * Rückgabewerte:   x und y                                                  *
  *****************************************************************************/
 void CGA::getpos (int &x, int &y) {
-    
+    x = CGA::x;
+    y = CGA::y;
     /* Hier muess Code eingefuegt werden */
     //return CGA::x, CGA::y;
 }
@@ -94,7 +95,7 @@ void CGA::print (char* string, int n, unsigned char attrib) {
         *(pos + 1) = attrib;
         pos += 2;
     }
-    x=x+n;    
+    x=x+n;
 }
 
 

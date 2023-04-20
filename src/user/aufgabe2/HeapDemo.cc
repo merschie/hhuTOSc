@@ -23,6 +23,10 @@ void waitForReturn() {
 
 
 void heap_demo() {
+    //init the heap
+    allocator.init();
+    allocator.dump_free_memory();
+
 
    /* hier muss Code eingefuegt werden */
 

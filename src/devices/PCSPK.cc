@@ -88,6 +88,24 @@ inline unsigned int PCSPK::readCounter() {
  * Parameter:       time (delay in ms)                                       *
  *****************************************************************************/
 inline void PCSPK::delay (int time) {
+    //read out Programmable Interval Timer (PIT)
+    uint64_t counter =UINT16_MAX- readCounter();
+    uint64_t end = counter + 1193*time; // 1193 = 1ms
+    uint16_t now;
+    uint16_t last;
+
+    now = counter;
+
+    while (counter < end) {
+        last=now;
+        now=UINT16_MAX- readCounter();
+        if(last>now){
+            counter +=UINT16_MAX-last + now;    
+            continue;
+        }
+        counter +=now-last;
+    }
+    
 
     /* Hier muess Code eingefuegt werden */
 

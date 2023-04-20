@@ -26,14 +26,16 @@ void aufgabe01() {
 }
 
 void aufgabe02() {
+    // Sound testen
+    sound_demo();
     heap_demo();
 }
 
 int main() {
     kout.clear();
     kout.setpos(0, 0);
-    kout.print("Mersch OS", 9, 0x0F);
-
+    kout.print("MerschOS" , 10, 0x0F);
+    kout.setpos(0, 1);
     aufgabe02();
 
     while (1);

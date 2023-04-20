@@ -41,9 +41,8 @@ void BumpAllocator::dump_free_memory() {
 
      kout << "   heap_start= " << hex << (uint64_t)heap_start << endl;
      kout << "   heap_end= " << hex << (uint64_t)heap_end << endl;
-     kout << "   heap_size= " << dec << (uint64_t)heap_size << endl;
+     kout << "   heap_size= " << oct << (uint64_t)heap_size << endl;
      kout << "   next= " << hex << (uint64_t)next << endl;
-
      /* Hier muess Code eingefuegt werden */
 
 }
