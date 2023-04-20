@@ -91,11 +91,23 @@ void CGA::print (char* string, int n, unsigned char attrib) {
             x = 0;
             pos = CGA_START + 2*(x + y*80);
         }
-        *pos = string[i];
-        *(pos + 1) = attrib;
-        pos += 2;
+        else if(y > 24) {
+            scrollup();
+            y = 24;
+            pos = CGA_START + 2*(x + y*80);
+        }
+        else if (x > 79) {
+            y++;
+            x = 0;
+            pos = CGA_START + 2*(x + y*80);
+        }
+        else{
+            *pos = string[i];
+            *(pos + 1) = attrib;
+            pos += 2;
+            x++;
+        }
     }
-    x=x+n;
 }
 
 
