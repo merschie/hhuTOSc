@@ -27,7 +27,7 @@ void aufgabe01() {
 
 void aufgabe02() {
     // Sound testen
-    sound_demo();
+
     heap_demo();
 }
 

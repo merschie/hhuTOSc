@@ -11,6 +11,7 @@
 #include "kernel/Globals.h"
 #include "kernel/Allocator.h"
 #include "user/aufgabe2/HeapDemo.h"
+#include "devices/PCSPK.h"
 // #include "user/MyObj.h"
 
 
@@ -25,6 +26,10 @@ void waitForReturn() {
 void heap_demo() {
     //init the heap
     allocator.init();
+    allocator.dump_free_memory();
+    allocator.alloc(100);
+    allocator.dump_free_memory();
+    allocator.alloc(200);
     allocator.dump_free_memory();
 
 
