@@ -27,9 +27,10 @@
  *                  Speicherverwaltung erstmalig gerufen wird.               *
  *****************************************************************************/
 void LinkedListAllocator::init() {
-
-     /* Hier muess Code eingefuegt werden */
-
+     // Anker fuer die Freispeicherliste
+     free_block *anker = (free_block*) heap_start;
+     anker->size = 16;
+     anker->next = NULL;
 }
 
 
@@ -39,8 +40,9 @@ void LinkedListAllocator::init() {
  * Beschreibung:    Ausgabe der Freispeicherliste. Zu Debuggingzwecken.      *
  *****************************************************************************/
 void LinkedListAllocator::dump_free_memory() {
-
-     /* Hier muess Code eingefuegt werden */
+     kout << "Heap Start: " << hex << heap_start << " heap_end: " << hex << heap_end << endl;
+     kout << "Block Start: " << hex << (uint64_t) free_start << " Block End: " << hex << (uint64_t) free_end << "Block Größe: " << size << endl;
+     
 
 }
 
@@ -52,7 +54,8 @@ void LinkedListAllocator::dump_free_memory() {
  *****************************************************************************/
 void * LinkedListAllocator::alloc(uint64_t  req_size) {
 
-     /* Hier muess Code eingefuegt werden */
+     
+     
 
 }
 

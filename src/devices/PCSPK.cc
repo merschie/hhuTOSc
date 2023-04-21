@@ -105,9 +105,6 @@ inline void PCSPK::delay (int time) {
         }
         counter +=now-last;
     }
-    
-
-    /* Hier muess Code eingefuegt werden */
 
 }
 

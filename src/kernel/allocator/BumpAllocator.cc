@@ -22,6 +22,7 @@
 void BumpAllocator::init() {
      //set next to the start of the heap
      next = (unsigned char*) heap_start;
+     allocations = 0;
 
 
 
@@ -38,11 +39,12 @@ void BumpAllocator::init() {
  *****************************************************************************/
 void BumpAllocator::dump_free_memory() {
     
-
-     kout << "   heap_start= " << hex << (uint64_t)heap_start << endl;
-     kout << "   heap_end= " << hex << (uint64_t)heap_end << endl;
-     kout << "   heap_size= " << dec << (uint64_t)heap_size << endl;
-     kout << "   next= " << hex << (uint64_t)next << endl;
+     kout << "BumpAllocator: " << endl;
+     kout << "   heap_start  = " << hex << (uint64_t)heap_start << endl;
+     kout << "   heap_end    = " << hex << (uint64_t)heap_end << endl;
+     kout << "   heap_size   = " << hex << (uint64_t)heap_size << endl;
+     kout << "   next        = " << hex << (uint64_t)next << endl;
+     kout << "   allocations = " << dec << allocations << endl;
      /* Hier muess Code eingefuegt werden */
 
 }
@@ -54,12 +56,9 @@ void BumpAllocator::dump_free_memory() {
  * Beschreibung:    Einen neuen Speicherblock allozieren.                    * 
  *****************************************************************************/
 void * BumpAllocator::alloc(uint64_t req_size) {
-     next = (unsigned char*) ((uint64_t )next + req_size);
+     next = next + req_size;
      allocations++;
      return (void*) (next - req_size);
-
-     /* Hier muess Code eingefuegt werden */
-
 }
 
 
