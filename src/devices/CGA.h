@@ -21,8 +21,6 @@ class CGA {
 private:
     IOport index_port;      // Auswahl eines Register der Grafikkarte
     IOport data_port;       // Lese-/Schreib-Zugriff auf Register der Grafikk.
-    static int x;           // Cursorposition
-    static int y;           // Cursorposition
     // Copy Konstrutkor unterbinden
     CGA(const CGA &copy);
     

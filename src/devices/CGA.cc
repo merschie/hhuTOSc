@@ -12,8 +12,7 @@
  *                  Aenderungen von Michael Schoettner, HHU, 21.8.2016       *
  *****************************************************************************/
 #include "devices/CGA.h"
-int CGA::x = 0;
-int CGA::y = 0;
+
 
 
 /*****************************************************************************
@@ -22,11 +21,12 @@ int CGA::y = 0;
  * Beschreibung:    Setzen des Cursors in Spalte x und Zeile y.              *
  *****************************************************************************/
 void CGA::setpos (int x, int y) {
+    unsigned short position = x + y * CGA::COLUMNS;
 
-    /* Hier muess Code eingefuegt werden */
-    CGA::x = x;
-    CGA::y = y;
-    
+    CGA::index_port.outb(15);
+    CGA::data_port.outb(position & 0xff);
+    CGA::index_port.outb(14);
+    CGA::data_port.outb((position >> 8 ) & 0xff);
 }
 
 
@@ -38,10 +38,18 @@ void CGA::setpos (int x, int y) {
  * Rückgabewerte:   x und y                                                  *
  *****************************************************************************/
 void CGA::getpos (int &x, int &y) {
-    x = CGA::x;
-    y = CGA::y;
-    /* Hier muess Code eingefuegt werden */
-    //return CGA::x, CGA::y;
+
+
+    unsigned short position;
+
+    CGA::index_port.outb(14);
+    position = CGA::data_port.inb() << 8;
+    CGA::index_port.outb(15);
+    position = position | CGA::data_port.inb();
+
+    y = (unsigned short)(position / CGA::COLUMNS);
+    x = position - (y * CGA::COLUMNS);
+
 }
 
 
@@ -58,14 +66,12 @@ void CGA::getpos (int &x, int &y) {
  *****************************************************************************/
 void CGA::show (int x, int y, char character, unsigned char attrib) {
     attrib = attribute(GREEN, BLACK, true);
-    int tempx = CGA::x;
-    int tempy = CGA::y;
-    CGA::x = x;
-    CGA::y = y;
+    int tempx = 0;
+    int tempy = 0;
+    getpos(tempx, tempy);
+    setpos(x, y);
     print(&character, 1, attrib);
-    CGA::x = tempx;
-    CGA::y = tempy;
-       
+    setpos(tempx, tempy);       
 }
 
 
@@ -83,6 +89,10 @@ void CGA::show (int x, int y, char character, unsigned char attrib) {
 void CGA::print (char* string, int n, unsigned char attrib) {
     char *CGA_START = (char *)0xb8000;
     char *pos;
+    int x=5;
+    int y=0;
+    getpos(x, y);
+
     pos = CGA_START + 2*(x + y*80);
     for (int i = 0; i < n; i++) {
         if (string[i] == '\n') {
@@ -108,6 +118,7 @@ void CGA::print (char* string, int n, unsigned char attrib) {
             x++;
         }
     }
+    setpos(x, y);
 }
 
 
