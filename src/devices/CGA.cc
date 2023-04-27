@@ -38,17 +38,15 @@ void CGA::setpos (int x, int y) {
  * Rückgabewerte:   x und y                                                  *
  *****************************************************************************/
 void CGA::getpos (int &x, int &y) {
-
-
     unsigned short position;
 
-    CGA::index_port.outb(14);
-    position = CGA::data_port.inb() << 8;
-    CGA::index_port.outb(15);
-    position = position | CGA::data_port.inb();
+    index_port.outb(14);
+    position = data_port.inb() << 8;
+    index_port.outb(15);
+    position = position | data_port.inb();
 
-    y = (unsigned short)(position / CGA::COLUMNS);
-    x = position - (y * CGA::COLUMNS);
+    y = (unsigned short)(position / COLUMNS);
+    x = position - (y * COLUMNS);
 
 }
 
@@ -89,8 +87,7 @@ void CGA::show (int x, int y, char character, unsigned char attrib) {
 void CGA::print (char* string, int n, unsigned char attrib) {
     char *CGA_START = (char *)0xb8000;
     char *pos;
-    int x=5;
-    int y=0;
+    int x,y;
     getpos(x, y);
 
     pos = CGA_START + 2*(x + y*80);
@@ -105,11 +102,13 @@ void CGA::print (char* string, int n, unsigned char attrib) {
             scrollup();
             y = 24;
             pos = CGA_START + 2*(x + y*80);
+            i--;
         }
         else if (x > 79) {
             y++;
             x = 0;
             pos = CGA_START + 2*(x + y*80);
+            i--;
         }
         else{
             *pos = string[i];

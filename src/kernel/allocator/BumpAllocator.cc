@@ -57,6 +57,7 @@ void BumpAllocator::dump_free_memory() {
  *****************************************************************************/
 void * BumpAllocator::alloc(uint64_t req_size) {
      next = next + req_size;
+     heap_size = heap_size - req_size;
      allocations++;
      return (void*) (next - req_size);
 }

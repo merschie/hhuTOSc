@@ -27,11 +27,14 @@ void heap_demo() {
     //init the heap
     allocator.init();
     allocator.dump_free_memory();
-    kout.print("Allocate 64bit value\n",21,0x0F);
-    allocator.alloc(128);
+    kout.print("Allocate 128 bits\n",19,0x0F);
+    allocator.alloc(1024);
     allocator.dump_free_memory();
-    kout.print("Allocate 32bit value\n",21,0x0F);
-    allocator.alloc(256);
+    kout.print("Allocate 32 bits\n",19,0x0F);
+    int* i = (int*) allocator.alloc(32);
+    allocator.dump_free_memory();
+    kout.print("Free 32 bits\n",14,0x0F);
+    allocator.free(i);
     allocator.dump_free_memory();
 
 

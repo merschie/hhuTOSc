@@ -16,6 +16,9 @@
 #define HEAP_MIN_FREE_BLOCK_SIZE 64         // min. Groesse eines freien Blocks
 
 
+
+
+
 /*****************************************************************************
  * Methode:         LinkedListAllocator::init                                *
  *---------------------------------------------------------------------------*
@@ -27,10 +30,14 @@
  *                  Speicherverwaltung erstmalig gerufen wird.               *
  *****************************************************************************/
 void LinkedListAllocator::init() {
-     // Anker fuer die Freispeicherliste
-     free_block *anker = (free_block*) heap_start;
-     anker->size = 16;
-     anker->next = NULL;
+     free_start = (free_block*) heap_start;
+     free_start->size = 0;
+     
+     //create first block
+     free_block *first_block = (free_block*) heap_start + sizeof(heap_start);
+     first_block->size = heap_end - heap_start - sizeof(heap_start);
+
+     free_start->next = first_block;
 }
 
 
@@ -40,9 +47,12 @@ void LinkedListAllocator::init() {
  * Beschreibung:    Ausgabe der Freispeicherliste. Zu Debuggingzwecken.      *
  *****************************************************************************/
 void LinkedListAllocator::dump_free_memory() {
-     kout << "Heap Start: " << hex << heap_start << " heap_end: " << hex << heap_end << endl;
-     kout << "Block Start: " << hex << (uint64_t) free_start << " Block End: " << hex << (uint64_t) free_end << "Block Größe: " << size << endl;
-     
+     free_block *current = free_start;
+     while (current != NULL) {   
+          kout << "     block start: " << hex << current << " block end: " << hex << current->next << " block size: " << dec <<  current->size << endl;
+          kout << "     sizeof: " << hex << (int)sizeof(current) << endl;
+          current = current->next;
+     }
 
 }
 
@@ -53,10 +63,24 @@ void LinkedListAllocator::dump_free_memory() {
  * Beschreibung:    Einen neuen Speicherblock allozieren.                    * 
  *****************************************************************************/
 void * LinkedListAllocator::alloc(uint64_t  req_size) {
-
      
-     
+     free_block *current = free_start;
+     while (true) {
+          if (current -> next -> size >= req_size) {
 
+               //create new block if there is enough space
+               if (current->next->size > req_size) {
+                    free_block *new_block = (free_block*) ((uint64_t) current->next + req_size);
+                    new_block->size = current->next->size - req_size;
+                    new_block->next = current->next->next;
+                    current -> next = new_block;
+                    
+               }
+               //return adress
+               return (void*) current -> next;
+         }
+         current = current->next;
+     }
 }
 
 
@@ -66,8 +90,17 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
  * Beschreibung:    Einen Speicherblock freigeben.                           *
  *****************************************************************************/
 void LinkedListAllocator::free(void *ptr) {
+     //create new block at ptr
+     free_block *new_block = (free_block*) ptr;
 
-     /* Hier muess Code eingefuegt werden */
+     //find block before ptr
+     free_block *current = free_start;
+     while (current->next > ptr) {
+          current = current->next;
+     }
+     current->next = new_block;
+     new_block->next = current->next->next;
+     new_block->size = current->next->size + sizeof(current->next);
 
 }
 
