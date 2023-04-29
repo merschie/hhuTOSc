@@ -15,12 +15,16 @@ void keyboard_demo() {
 
     Keyboard kbd;
     kbd.set_led(4,true);
+    kbd.set_repeat_rate(3,3);
+    int pos = 0;
     while (true)
-    {
-        kout.show(2,2,kbd.key_hit().ascii(),0x0A);
+    {   
+        if(kbd.key_hit().valid())
+        {
+            kout.setpos(pos,0);
+            kout.show(pos,0,kbd.key_hit().ascii(),0x0F);
+            pos++;
+        }
+        kout.show(2,2,kbd.key_hit().ascii(),0x0F);
     }
-    
-    
-
-
 }

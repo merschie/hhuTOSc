@@ -49,8 +49,7 @@ void LinkedListAllocator::init() {
 void LinkedListAllocator::dump_free_memory() {
      free_block *current = free_start;
      while (current != NULL) {   
-          kout << "     block start: " << hex << current << " block end: " << hex << current->next << " block size: " << dec <<  current->size << endl;
-          kout << "     sizeof: " << hex << (int)sizeof(current) << endl;
+          kout << "     block start: " << hex << current << " next block: " << hex << current->next << " block size: " << dec <<  current->size << endl;
           current = current->next;
      }
 
@@ -67,18 +66,10 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
      free_block *current = free_start;
      while (true) {
           if (current -> next -> size >= req_size) {
-
-               //create new block if there is enough space
-               if (current->next->size > req_size) {
-                    free_block *new_block = (free_block*) ((uint64_t) current->next + req_size);
-                    new_block->size = current->next->size - req_size;
-                    new_block->next = current->next->next;
-                    current -> next = new_block;
-                    
-               }
-               //return adress
-               return (void*) current -> next;
-         }
+               //fix next pointer
+               return (void*) current -> next + sizeof(free_block);
+               
+          }
          current = current->next;
      }
 }
@@ -98,9 +89,12 @@ void LinkedListAllocator::free(void *ptr) {
      while (current->next > ptr) {
           current = current->next;
      }
+     
+     //new_block->next = current->next;
      current->next = new_block;
      new_block->next = current->next->next;
-     new_block->size = current->next->size + sizeof(current->next);
+     
+     new_block->size = (char*) current->next - (char*) new_block;
 
 }
 

@@ -36,6 +36,7 @@ int main() {
     kout.setpos(0, 0);
     kout.print("MerschOS" , 10, 0x0F);
     kout.setpos(0, 1);
+    //aufgabe01();
     aufgabe02();
 
     while (1);

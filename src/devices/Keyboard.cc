@@ -324,10 +324,11 @@ void Keyboard::reboot () {
  *                  und 31 (sehr langsam).                                   *
  *****************************************************************************/
 void Keyboard::set_repeat_rate (int speed, int delay) {
-    int data = 0xF3;
-    data |= (speed & 0x1F) << 5;
-    data |= (delay & 0x03) << 0;
-    ctrl_port.outb (data);
+    int data = 0;
+    data |= (speed) << 5;
+    data |= (delay) << 0;
+    ctrl_port.outb (0xF3);
+    data_port.outb (data);
 
     /* Hier muss Code eingefuegt werden. */
 
