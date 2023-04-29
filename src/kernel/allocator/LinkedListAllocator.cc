@@ -36,6 +36,7 @@ void LinkedListAllocator::init() {
      //create first block
      free_block *first_block = (free_block*) heap_start + sizeof(heap_start);
      first_block->size = heap_end - heap_start - sizeof(heap_start);
+     first_block->next = NULL;
 
      free_start->next = first_block;
 }
@@ -65,10 +66,21 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
      
      free_block *current = free_start;
      while (true) {
-          if (current -> next -> size >= req_size) {
-               //fix next pointer
-               return (void*) current -> next + sizeof(free_block);
-               
+          //if size is big enough to make new block
+          if (current -> next -> size >= req_size + sizeof(free_block)) {
+               //create new block at current->next + req_size
+               free_block *new_block = (free_block*) ((char*) current -> next + req_size + sizeof(free_block));
+               new_block -> size = current -> next -> size - req_size - sizeof(free_block);
+               new_block -> next = current -> next -> next;
+               //unlink current->next and show pointer to new_block
+               current ->next = new_block;
+               return (void*) current -> next + sizeof(free_block);      
+          }
+          //if size is not big enough to make new block
+          else if (current -> next -> size >= req_size) {
+               //unlink current->next and show pointer to current->next->next
+               current -> next = current -> next -> next;
+               return (void*) current -> next + sizeof(free_block);      
           }
          current = current->next;
      }
