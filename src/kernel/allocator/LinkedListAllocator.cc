@@ -68,13 +68,18 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
      while (true) {
           //if size is big enough to make new block
           if (current -> next -> size >= req_size + sizeof(free_block)) {
+               free_block *to_alloc = current -> next;
+
                //create new block at current->next + req_size
-               free_block *new_block = (free_block*) ((char*) current -> next + req_size + sizeof(free_block));
-               new_block -> size = current -> next -> size - req_size - sizeof(free_block);
+               free_block *new_block = (free_block*) ((char*) current -> next + req_size);        
+               new_block -> size = current -> next -> size - (req_size - sizeof(free_block));
+               to_alloc -> size = req_size;
+
                new_block -> next = current -> next -> next;
                //unlink current->next and show pointer to new_block
-               current ->next = new_block;
-               return (void*) current -> next + sizeof(free_block);      
+               current -> next = new_block;
+               
+               return to_alloc + sizeof(free_block);      
           }
           //if size is not big enough to make new block
           else if (current -> next -> size >= req_size) {
@@ -93,20 +98,16 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
  * Beschreibung:    Einen Speicherblock freigeben.                           *
  *****************************************************************************/
 void LinkedListAllocator::free(void *ptr) {
-     //create new block at ptr
-     free_block *new_block = (free_block*) ptr;
-
-     //find block before ptr
+     //recover block at ptr - sizeof(free_block)
+     free_block *block = (free_block*) ((char*) ptr - sizeof(free_block));
+     
+     //find last block
      free_block *current = free_start;
-     while (current->next > ptr) {
-          current = current->next;
+     while (current -> next != NULL) {
+          current = current -> next;
      }
-     
-     //new_block->next = current->next;
-     current->next = new_block;
-     new_block->next = current->next->next;
-     
-     new_block->size = (char*) current->next - (char*) new_block;
+     //link last block to block
+     current -> next = block;
+     block -> next = NULL;
 
 }
-
