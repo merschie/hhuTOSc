@@ -34,7 +34,9 @@ void heap_demo() {
     int* i = (int*) allocator.alloc(32);
     allocator.dump_free_memory();
     kout.print("Free 32 bits\n",14,0x0F);
+    //free the 32 bits
     allocator.free(i);
+
     allocator.dump_free_memory();
     kout.print("Free 128 bits\n",15,0x0F);
     allocator.free(testString);

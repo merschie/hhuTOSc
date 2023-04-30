@@ -78,8 +78,10 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
                new_block -> next = current -> next -> next;
                //unlink current->next and show pointer to new_block
                current -> next = new_block;
+               kout << "allocating block at " << hex << to_alloc << endl;
+               //return pointer of to_alloc + sizeof(free_block)
+               return (void*) to_alloc + sizeof(free_block);
                
-               return to_alloc + sizeof(free_block);      
           }
           //if size is not big enough to make new block
           else if (current -> next -> size >= req_size) {
@@ -99,6 +101,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
  *****************************************************************************/
 void LinkedListAllocator::free(void *ptr) {
      //recover block at ptr - sizeof(free_block)
+     kout << "freeing block at " << hex << ptr << endl;
      free_block *block = (free_block*) ((char*) ptr - sizeof(free_block));
      
      //find last block
