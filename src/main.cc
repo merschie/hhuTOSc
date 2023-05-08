@@ -29,15 +29,19 @@ void aufgabe03() {
 int main() {
     kout.clear();
     kout.setpos(0,0);
-    kout << "MerschOS" << endl << endl;
+    kout.print("MerschOs\n",10,0x05);
     // Heapverwaltung initialisieren
-
+    allocator.init();
+    kout << "Heap initialisiert" << endl;
     // IDT & PIC initialisieren
     _init_interrupts();     // in 'interrupts.asm' 
+    kout << "Interrupts initialisiert" << endl;
 
     // Tastatur-Unterbrechungsroutine 'einstoepseln'
 
     kb.plugin();
+    kout << "Tastatur initialisiert" << endl;
+
     // Interrupt-Verarbeitung durch CPU erlauben 
     cpu.enable_int();
 

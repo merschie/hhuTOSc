@@ -37,16 +37,11 @@ static IOport IMR2 (0xa1);    // interrupt mask register von PIC 2
 void PIC::allow (int irq) {
     if (irq >= 16) return;
 
-    IOport * target;
     if (irq < 8) {
-        target = &IMR1;
+        IMR1.outb(IMR1.inb() & ~(1<<irq));
     } else {
-        target = &IMR2;
-        irq -= 8;
+        IMR2.outb(IMR2.inb() & ~(1<<(irq-8)));
     }
-
-    target->outb(target->inb() & ~(1<<irq));
-
 }
 
 
@@ -61,16 +56,11 @@ void PIC::allow (int irq) {
 void PIC::forbid (int irq) {
     if (irq >= 16) return;
 
-    IOport * target;
     if (irq < 8) {
-        target = &IMR1;
+        IMR1.outb(IMR1.inb() | (1<<irq));
     } else {
-        target = &IMR2;
-        irq -= 8;
+        IMR2.outb(IMR2.inb() | (1<<(irq-8)));
     }
-
-    target->outb(target->inb() | (1<<irq));
-
 }
 
 
@@ -86,14 +76,9 @@ void PIC::forbid (int irq) {
 bool PIC::status (int irq) {
     if (irq >= 16) return false;
 
-    IOport * target;
     if (irq < 8) {
-        target = &IMR1;
+        return (IMR1.inb() >> irq) & 1;
     } else {
-        target = &IMR2;
-        irq -= 8;
+        return (IMR2.inb() >> (irq-8)) & 1;
     }
-
-    return (target->inb() >> irq) & 1;
-
 }

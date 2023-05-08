@@ -32,17 +32,13 @@ extern "C" void int_disp (unsigned int vector);
  *****************************************************************************/
 void int_disp (unsigned int vector) {
 
-
     cpu.disable_int();
-    kout << "Int "<< dec << vector <<endl;
-    kout << "Test" << endl;
-
-    if (intdis.report(vector) != 0) {
-        if (vector < 32) kout << "Error "<< dec << vector <<endl;
+    //kout << "Vector Nummer: "<< dec << vector <<endl;
+    if (intdis.report(vector) !=0) {
+        if(vector < 32)
+        kout << "IntDispatcher::report: Keine ISR fuer Vektor " << dec << vector << endl;
     }
-
     cpu.enable_int();
-
 }
 
 
@@ -69,8 +65,9 @@ IntDispatcher::IntDispatcher () {
  * Rueckgabewert:   0 = Erfolg, -1 = Fehler                                  *
  *****************************************************************************/
 int IntDispatcher::assign (unsigned int vector, ISR& isr) {
-
-    /* hier muss Code eingefuegt werden */
+    if (vector > 255) return -1;
+    map[vector] = &isr;
+    return 0;
 
 }
 
@@ -86,7 +83,10 @@ int IntDispatcher::assign (unsigned int vector, ISR& isr) {
  * Rueckgabewert:   0 = ISR wurde aufgerufen, -1 = unbekannte Vektor-Nummer  *
  *****************************************************************************/
 int IntDispatcher::report (unsigned int vector) {
-
-    /* hier muss Code eingefuegt werden */
-
+    if (map[vector] != NULL) {
+        map[vector]->trigger();
+        return 0;
+    } else {
+        return -1;
+    }
 }

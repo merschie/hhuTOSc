@@ -92,6 +92,7 @@ public:
 
    // Unterbrechnungsroutine der Tastatur.
    void trigger ();
+
 };
 
 #endif

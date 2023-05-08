@@ -246,19 +246,20 @@ Keyboard::Keyboard () :
 
 void Keyboard::plugin() {
     // alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
-    set_led (led::caps_lock, false);
+    set_led (led::caps_lock, true);
     set_led (led::scroll_lock, false);
     set_led (led::num_lock, false);
 
     // maximale Geschwindigkeit, minimale Verzoegerung
     set_repeat_rate (0, 0);
 
-    
+    kout << "Keyboard plugged" << endl;
     pic.allow(1);
     intdis.assign(intdis.keyboard, *this);
 }
 
 void Keyboard::trigger() {
+    kout << "Keyboard triggered" << endl;
     code = data_port.inb();
     key_decoded();
 }
