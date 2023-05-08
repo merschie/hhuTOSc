@@ -32,9 +32,16 @@ extern "C" void int_disp (unsigned int vector);
  *****************************************************************************/
 void int_disp (unsigned int vector) {
 
-    /* hier muss Code eingefuegt werden */
-    
-    kout << "Ein Interrupt ist aufgetreten" << slot << endl;
+
+    cpu.disable_int();
+    kout << "Int "<< dec << vector <<endl;
+    kout << "Test" << endl;
+
+    if (intdis.report(vector) != 0) {
+        if (vector < 32) kout << "Error "<< dec << vector <<endl;
+    }
+
+    cpu.enable_int();
 
 }
 

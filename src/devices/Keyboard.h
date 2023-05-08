@@ -18,7 +18,7 @@
 
 
 class Keyboard : public ISR {
-    
+
 private:
     Keyboard(const Keyboard &copy); // Verhindere Kopieren
 
@@ -48,7 +48,7 @@ private:
     // Antworten der Tastatur
     struct kbd_reply {
         enum { ack = 0xfa };
-     }; 
+     };
 
     // Konstanten fuer die Tastaturdekodierung
     enum { break_bit = 0x80, prefix1 = 0xe0, prefix2   = 0xe1 };
@@ -59,18 +59,18 @@ private:
     static uint8_t alt_tab[];
     static uint8_t asc_num_tab[];
     static uint8_t scan_num_tab[];
-         
+
     // Interpretiert die Make und Break-Codes der Tastatur.
     bool key_decoded ();
 
     // Ermittelt anhand von Tabellen den ASCII-Code.
     void get_ascii_code ();
-    
+
 public:
    // speichert den ASCII-Code der zuletzt gedrückten Taste
    // Variable wird in 'trigger' geschrieben
-   unsigned int lastkey; 
-   
+   unsigned int lastkey;
+
    // Initialisierung der Tastatur.
    Keyboard ();
 
@@ -89,7 +89,7 @@ public:
 
    // Aktivierung der Unterbrechungen fuer die Tastatur
    void plugin ();
-    
+
    // Unterbrechnungsroutine der Tastatur.
    void trigger ();
 };

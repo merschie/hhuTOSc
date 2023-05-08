@@ -10,14 +10,14 @@
  *****************************************************************************/
 
 #include "kernel/Globals.h"
-#include "user/aufgabe3/KeyboardDemo.h"
+//#include "user/aufgabe1/KeyboardDemo.h"
 
-extern "C" void init_interrupts();     // in 'interrupts.asm' 
+extern "C" void _init_interrupts();     // in 'interrupts.asm' 
 
 
 void aufgabe03() {
    // Keyboard & Interrupts testen
-   keyboard_demo();
+   //keyboard_demo();
 }
 
 
@@ -27,22 +27,24 @@ void aufgabe03() {
  * Beschreibung:    C-Einstiegsfunktion fuer hhuTOS.                         *
  *****************************************************************************/
 int main() {
+    kout.clear();
+    kout.setpos(0,0);
+    kout << "MerschOS" << endl << endl;
+    // Heapverwaltung initialisieren
 
-   // Heapverwaltung initialisieren
+    // IDT & PIC initialisieren
+    _init_interrupts();     // in 'interrupts.asm' 
 
-   // IDT & PIC initialisieren
-   init_interrupts();     // in 'interrupts.asm' 
+    // Tastatur-Unterbrechungsroutine 'einstoepseln'
 
-   // Tastatur-Unterbrechungsroutine 'einstoepseln'
-
-   // Interrupt-Verarbeitung durch CPU erlauben 
-
-
+    kb.plugin();
+    // Interrupt-Verarbeitung durch CPU erlauben 
+    cpu.enable_int();
 
 
-   aufgabe03();
-    
-      
-   while (1) ; // wir kehren nicht zum Bootlader zurueck
-   return 0;
+    aufgabe03();
+
+        
+    while (1) ; // wir kehren nicht zum Bootlader zurueck
+    return 0;
 }
