@@ -259,9 +259,11 @@ void Keyboard::plugin() {
 }
 
 void Keyboard::trigger() {
-    kout << "Keyboard triggered" << endl;
-    code = data_port.inb();
-    key_decoded();
+    Key key = key_hit();
+    if (key.valid()) {;
+        kout.show(15,15,key,0x07);
+    }
+    
 }
 
 
@@ -285,7 +287,7 @@ void Keyboard::trigger() {
  *                  ungueltigen Wert zurueck, was mit Key::valid ()          *
  *                  ueberprueft werden kann.                                 *
  *****************************************************************************/
-/* Key Keyboard::key_hit () {
+Key Keyboard::key_hit () {
     Key invalid;  // nicht explizit initialisierte Tasten sind ungueltig
 
     //check control port if outb is set
@@ -300,10 +302,11 @@ void Keyboard::trigger() {
     }
 
     if (key_decoded ()) {
+        lastkey = gather;
         return gather;
     }
     return invalid;
-} */
+}
 
 
 /*****************************************************************************

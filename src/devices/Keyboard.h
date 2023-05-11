@@ -76,7 +76,7 @@ public:
 
    // Tastaturabfrage (vorerst Polling)
    // Sollte nicht mehr verwendet werden, daher auskommentieren
-   // Key key_hit ();
+   Key key_hit ();
 
    // Fuehrt einen Neustart des Rechners durch.
    void reboot ();

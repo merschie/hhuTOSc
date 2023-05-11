@@ -18,6 +18,14 @@ extern "C" void _init_interrupts();     // in 'interrupts.asm'
 void aufgabe03() {
    // Keyboard & Interrupts testen
    //keyboard_demo();
+
+    while(1){
+        kout.setpos(0,6);
+        for (int i = 0; i < 15; i++) {
+            kout << i << endl;
+        }
+    }
+
 }
 
 
