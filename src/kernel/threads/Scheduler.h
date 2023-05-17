@@ -31,7 +31,7 @@ private:
     Scheduler (const Scheduler &copy); // Verhindere Kopieren
      
 private:
-    Queue readyQueue;   // auf die CPU wartende Threads
+    //Queue readyQueue;   // auf die CPU wartende Threads
    
 public:
     Scheduler () {}
