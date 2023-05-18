@@ -11,7 +11,7 @@
 
 #include "kernel/Globals.h"
 //#include "user/aufgabe1/KeyboardDemo.h"
-
+#include "user/aufgabe4/CoroutineDemo.h"
 extern "C" void _init_interrupts();     // in 'interrupts.asm' 
 
 
@@ -53,7 +53,7 @@ int main() {
     // Interrupt-Verarbeitung durch CPU erlauben 
     cpu.enable_int();
 
-
+    CoroutineDemo().main();
     aufgabe03();
 
         

@@ -21,7 +21,19 @@
  * Beschreibung:    Einstiegsfunktion der Koroutine.                         *
  *****************************************************************************/
 void CoroutineLoop::run () {
+    int x, y;
+    kout.getpos(x, y);
+    y++;
 
-   /* Hier muss Code eingefuegt werden */
+    for(int i = 0; ; i++) {
+        if(id == 1) {
+            kout.setpos(0, y);
+        }
+        kout << "Koroutine [" << id << "]: " << i << "   ";
+        if(id == 3) {
+            kout.flush();
+        }
+        switch2next();
+    }
    
 }

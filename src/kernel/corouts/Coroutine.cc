@@ -113,7 +113,7 @@ void kickoff (Coroutine* object) {
  * Parameter:                                                                *
  *      stack       Stack für die neue Koroutine                             *
  *****************************************************************************/
-Coroutine::Coroutine (uint64_t *stack) {
+Coroutine::Coroutine () {
    stack = new uint64_t[1024];
    Coroutine_prepare_stack (&context, stack+1023, kickoff, this);
  }
@@ -125,7 +125,7 @@ Coroutine::Coroutine (uint64_t *stack) {
  * Beschreibung:    Auf die nächste Koroutine umschalten.                    *
  *****************************************************************************/
 void Coroutine::switch2next () {
-    /* hier muss Code eingefügt werden */
+    _coroutine_switch(&this->context, &(((Coroutine *)next)->context));
 }
 
 
@@ -135,7 +135,7 @@ void Coroutine::switch2next () {
  * Beschreibung:    Aktivierung der Koroutine.                               *
 *****************************************************************************/
 void Coroutine::start () {
-    /* hier muss Code eingefügt werden */
+    _coroutine_start(&this->context);
 }
 
 
@@ -145,7 +145,7 @@ void Coroutine::start () {
  * Beschreibung:    Verweis auf nächste Koroutine setzen.                    *
  *****************************************************************************/
 void Coroutine::setNext (Chain* next) {
-    /* hier muss Code eingefügt werden */
+    this->next = next;
 }
 
 
@@ -155,5 +155,5 @@ void Coroutine::setNext (Chain* next) {
  * Beschreibung:    Hier wird der Stack freigegeben.                         *
  *****************************************************************************/
 Coroutine::~Coroutine () {
-    delete(stack);
+    //(delete(stack);
 }
