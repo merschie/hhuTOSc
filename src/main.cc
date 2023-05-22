@@ -53,6 +53,7 @@ int main() {
     // Interrupt-Verarbeitung durch CPU erlauben 
     cpu.enable_int();
 
+    kout << "Koroutinen initialisiert" << endl;
     CoroutineDemo().main();
     aufgabe03();
 

@@ -155,5 +155,5 @@ void Coroutine::setNext (Chain* next) {
  * Beschreibung:    Hier wird der Stack freigegeben.                         *
  *****************************************************************************/
 Coroutine::~Coroutine () {
-    //(delete(stack);
+    delete(stack);
 }
