@@ -1,6 +1,12 @@
 #include "Queue.h"
 
 
+void Queue::init() {
+    first = new QueueElement;
+    first->next = 0;
+    first->data = 0;
+}
+
 void Queue::addElement(void* data) {
     QueueElement* newElement = new QueueElement;
     newElement->data = data;

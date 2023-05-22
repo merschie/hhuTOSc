@@ -23,6 +23,7 @@ private:
     QueueElement* first;
 
 public:
+    void init();
     void* getFirst();
     void addElement(void* data);
     Queue() {}
