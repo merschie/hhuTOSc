@@ -10,23 +10,23 @@
  *****************************************************************************/
 
 
-class Queue {
+
 
 struct QueueElement
 {
-    QueueElement* next;
-    void* data;
+    struct QueueElement *next;
+    void* element;
 };
-    
+
+class Queue {
+
 private:
-    Queue(const Queue &copy); // Verhindere Kopieren
-    QueueElement* first;
+    struct QueueElement start;
 
 public:
-    void init();
+    Queue();
     void* getFirst();
-    void addElement(void* data);
+    void addElement(void* element);
     void dump();
-    Queue() {}
 };
 

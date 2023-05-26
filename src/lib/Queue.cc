@@ -1,36 +1,37 @@
 #include "Queue.h"
 #include "kernel/Globals.h"
 
-void Queue::init() {
-    this->first->next = 0;
-    this->first->data = 0;
+Queue::Queue () {
+    struct QueueElement first = QueueElement();
+    first.element = nullptr;
+    first.next = nullptr;
+    start = first;
 }
 
 void Queue::addElement(void* pntr) {
-    kout << "size of  Element" << (uint64_t)sizeof(QueueElement) << endl;
-    QueueElement* newElement = (QueueElement*)allocator.alloc(sizeof(QueueElement));
-    //newElement->data = pntr;
-    //newElement->next = 0;
-    QueueElement* current = this->first;
-    while (current->next != 0) {
+    QueueElement *newElement = new QueueElement();
+    newElement->element = pntr;
+    newElement->next = nullptr;
+    QueueElement *current = &start;
+    while (current->next != nullptr) {
         current = current->next;
     }
-    //current->next = newElement;
+    current->next = newElement;
 }
 
 void* Queue::getFirst() {
-    QueueElement* tmp = this->first;
-    first = first->next;
-    void* data = tmp->data;
-    //delete(tmp);
+    QueueElement *tmp = start.next;
+    void* data = tmp->element;
+    start.next = tmp->next;
+    delete tmp;
     return data;
 }
 
 void Queue::dump() {
-    QueueElement* tmp = this->first;
+    QueueElement *tmp = &start;
     while (tmp->next != 0) {
-        kout << "Data: " << tmp->data << " Next: " << tmp->next << endl;
+        kout << "Data: " << tmp->element << " Next: " << tmp->next << endl;
         tmp = tmp->next;
     }
-    kout << "Data: " << tmp->data << " Next: " << tmp->next << "End!!!" << endl;
+    kout << "Data: " << tmp->element << " Next: " << tmp->next << "End!!!" << endl;
 }
