@@ -53,7 +53,6 @@ void LinkedListAllocator::dump_free_memory() {
           kout << "     block start: " << hex << current << " next block: " << hex << current->next << " block size: " << dec <<  current->size << endl;
           current = current->next;
      }
-
 }
 
 
@@ -65,11 +64,10 @@ void LinkedListAllocator::dump_free_memory() {
 void * LinkedListAllocator::alloc(uint64_t  req_size) {
      
      free_block *current = free_start;
-     while (true) {
+     while (current -> next != NULL) {
           //if size is big enough to make new block
           if (current -> next -> size >= req_size + sizeof(free_block)) {
                free_block *to_alloc = current -> next;
-
                //create new block at current->next + req_size
                free_block *new_block = (free_block*) ((char*) current -> next + req_size);        
                new_block -> size = current -> next -> size - (req_size - sizeof(free_block));
@@ -78,19 +76,26 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
                new_block -> next = current -> next -> next;
                //unlink current->next and show pointer to new_block
                current -> next = new_block;
-               kout << "allocating block at " << hex << to_alloc << endl;
+               kout << "allocating block at " << hex << to_alloc + sizeof(free_block) << endl;
+               kout << "size of remaing block: " << dec << new_block -> size << endl;
                //return pointer of to_alloc + sizeof(free_block)
                return (void*) to_alloc + sizeof(free_block);
                
           }
           //if size is not big enough to make new block
           else if (current -> next -> size >= req_size) {
-               //unlink current->next and show pointer to current->next->next
                current -> next = current -> next -> next;
+               kout << "allocating block kfeusjfilsjfiosfjat " << hex << current -> next << endl;
                return (void*) current -> next + sizeof(free_block);      
           }
          current = current->next;
      }
+
+     while (true)
+     
+     kout << "no memory left" << endl;
+          
+     return NULL;
 }
 
 

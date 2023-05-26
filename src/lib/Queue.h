@@ -26,6 +26,7 @@ public:
     void init();
     void* getFirst();
     void addElement(void* data);
+    void dump();
     Queue() {}
 };
 

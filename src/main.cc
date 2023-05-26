@@ -13,7 +13,7 @@
 //#include "user/aufgabe1/KeyboardDemo.h"
 #include "user/aufgabe4/CoroutineDemo.h"
 extern "C" void _init_interrupts();     // in 'interrupts.asm' 
-
+#include "lib/Queue.h"
 
 void aufgabe03() {
    // Keyboard & Interrupts testen
@@ -54,8 +54,27 @@ int main() {
     cpu.enable_int();
 
     kout << "Koroutinen initialisiert" << endl;
-    CoroutineDemo().main();
-    aufgabe03();
+    kout.clear();
+    Queue readyqueue;
+    allocator.alloc(100);
+    readyqueue.init();
+    readyqueue.dump();
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    readyqueue.addElement(&a);
+    readyqueue.addElement(&b);
+    readyqueue.addElement(&c);
+    allocator.dump_free_memory();
+
+    //readyqueue.dump();
+    
+    //int *d = (int*)readyqueue.getFirst();
+    //kout << "d: " << *d << endl;
+
+
+    //CoroutineDemo().main();
+    //aufgabe03();
 
         
     while (1) ; // wir kehren nicht zum Bootlader zurueck
