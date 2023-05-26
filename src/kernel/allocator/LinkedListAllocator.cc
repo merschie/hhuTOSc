@@ -68,16 +68,17 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
           //if size is big enough to make new block
           if (current -> next -> size >= req_size + sizeof(free_block)) {
                free_block *to_alloc = current -> next;
-               //create new block at current->next + req_size
-               free_block *new_block = (free_block*) ((char*) current -> next + req_size);        
+               free_block *new_block = (free_block*) ((char*) current -> next + req_size + sizeof(free_block));        
                new_block -> size = current -> next -> size - (req_size - sizeof(free_block));
-               to_alloc -> size = req_size;
+               //to_alloc -> size = req_size;
 
                new_block -> next = current -> next -> next;
                //unlink current->next and show pointer to new_block
                current -> next = new_block;
-               kout << "allocating block at " << hex << to_alloc + sizeof(free_block) << endl;
-               kout << "size of remaing block: " << dec << new_block -> size << endl;
+               kout << "allocating block at " << hex << to_alloc<< " with size " << dec << req_size << endl;
+               kout << "size of new block: " << dec << new_block -> size << endl;
+               kout << "adress of new block: " << hex << new_block << endl;
+               kout << "Adress of next block: " << hex << new_block -> next << endl;
                //return pointer of to_alloc + sizeof(free_block)
                return (void*) to_alloc + sizeof(free_block);
                

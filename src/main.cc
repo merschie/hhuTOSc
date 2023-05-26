@@ -55,8 +55,9 @@ int main() {
 
     kout << "Koroutinen initialisiert" << endl;
     kout.clear();
+    kout.setpos(0,0);
     Queue readyqueue;
-    readyqueue.dump();
+    allocator.dump_free_memory();
     int a = 1;
     int b = 2;
     int c = 3;
@@ -68,8 +69,11 @@ int main() {
     readyqueue.dump();
     
     int *d = (int*)readyqueue.getFirst();
-    kout << "d: " << *d << endl;
-
+    kout << "d: " << dec << *d << endl;
+    int *e = (int*)readyqueue.getFirst();
+    kout << "d: " << dec << *e << endl;
+    int *f = (int*)readyqueue.getFirst();
+    kout << "d: " << dec << *f << endl;
 
     //CoroutineDemo().main();
     //aufgabe03();
