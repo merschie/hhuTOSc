@@ -23,15 +23,15 @@
 
 #include "kernel/threads/Dispatch.h"
 #include "kernel/threads/Thread.h"
-//#include "lib/Queue.h"
+#include "lib/Queue.h"
 
 class Scheduler : public Dispatcher {
     
 private:
     Scheduler (const Scheduler &copy); // Verhindere Kopieren
      
-//private:
-//    Queue readyQueue;   // auf die CPU wartende Threads
+private:
+    Queue readyQueue;   // auf die CPU wartende Threads
    
 public:
     Scheduler () {}

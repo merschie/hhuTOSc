@@ -1,5 +1,5 @@
 #include "Queue.h"
-#include "kernel/Globals.h"
+//#include "kernel/Globals.h"
 
 Queue::Queue () {
     struct QueueElement first = QueueElement();
@@ -30,8 +30,8 @@ void* Queue::getFirst() {
 void Queue::dump() {
     QueueElement *tmp = &start;
     while (tmp->next != 0) {
-        kout << "Data: " << tmp->element << " Next: " << tmp->next << endl;
+        //kout << "Data: " << tmp->element << " Next: " << tmp->next << endl;
         tmp = tmp->next;
     }
-    kout << "Data: " << tmp->element << " Next: " << tmp->next << "End!!!" << endl;
+    //kout << "Data: " << tmp->element << " Next: " << tmp->next << "End!!!" << endl;
 }

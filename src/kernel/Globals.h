@@ -29,5 +29,6 @@ extern PIC                   pic;        // Interrupt-Controller
 extern unsigned int          total_mem;  // RAM total
 //extern BumpAllocator         allocator;
 extern LinkedListAllocator   allocator;
-extern Scheduler        scheduler;  // Scheduler
+extern Scheduler             scheduler;  // Scheduler
+extern unsigned int                 ThreadIdCounter; //aktuelle ThreadID
 #endif

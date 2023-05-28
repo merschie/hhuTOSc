@@ -11,9 +11,8 @@
 
 #include "kernel/Globals.h"
 //#include "user/aufgabe1/KeyboardDemo.h"
-#include "user/aufgabe4/CoroutineDemo.h"
+//#include "user/aufgabe4/CoroutineDemo.h"
 extern "C" void _init_interrupts();     // in 'interrupts.asm' 
-#include "lib/Queue.h"
 
 void aufgabe03() {
    // Keyboard & Interrupts testen
@@ -54,9 +53,9 @@ int main() {
     cpu.enable_int();
 
     kout << "Koroutinen initialisiert" << endl;
-    kout.clear();
-    kout.setpos(0,0);
-    Queue readyqueue;
+    //kout.clear();
+    //kout.setpos(0,0);
+/*     Queue readyqueue;
     allocator.dump_free_memory();
     int a = 1;
     int b = 2;
@@ -73,7 +72,7 @@ int main() {
     int *e = (int*)readyqueue.getFirst();
     kout << "d: " << dec << *e << endl;
     int *f = (int*)readyqueue.getFirst();
-    kout << "d: " << dec << *f << endl;
+    kout << "d: " << dec << *f << endl; */
 
     //CoroutineDemo().main();
     //aufgabe03();
