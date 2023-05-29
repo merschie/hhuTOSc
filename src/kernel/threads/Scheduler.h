@@ -34,7 +34,9 @@ private:
     Queue readyQueue;   // auf die CPU wartende Threads
    
 public:
-    Scheduler () {}
+    Scheduler () {
+        readyQueue = Queue();
+    }
 
     // Scheduler starten
     void schedule ();

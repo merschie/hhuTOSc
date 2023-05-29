@@ -35,3 +35,15 @@ void Queue::dump() {
     }
     //kout << "Data: " << tmp->element << " Next: " << tmp->next << "End!!!" << endl;
 }
+
+void Queue::deleteElement(void *element) {
+    QueueElement *current = &start;
+    while(current->next != nullptr) {
+        if(current->next->element == element) {
+            QueueElement *to_delete = current->next;
+            current->next = current->next->next;
+            delete(to_delete);
+        }
+        current = current->next;
+    }
+}

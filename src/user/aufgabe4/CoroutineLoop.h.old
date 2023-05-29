@@ -14,7 +14,7 @@
 #ifndef __coroutineloop_include__
 #define __coroutineloop_include__
 
-//#include "kernel/corouts/Coroutine.h"
+#include "kernel/corouts/Coroutine.h"
 #include "lib/Types.h"
 
 

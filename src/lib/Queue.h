@@ -28,5 +28,6 @@ public:
     void* getFirst();
     void addElement(void* element);
     void dump();
+    void deleteElement(void* element);
 };
 

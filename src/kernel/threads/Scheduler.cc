@@ -20,7 +20,7 @@
 #include "kernel/threads/Scheduler.h"
 #include "kernel/threads/IdleThread.h"
 
-
+IdleThread *idle;
 
 /*****************************************************************************
  * Methode:         Scheduler::schedule                                      *
@@ -29,11 +29,14 @@
  *****************************************************************************/
 void Scheduler::schedule () {
 
-    /* hier muss Code eingefuegt werden */
-    
-    /* Bevor diese Methode anufgerufen wird, muss zumindest der Idle-Thread 
-     * in der Queue eingefuegt worden sein. 
-     */
+    Thread *current = (Thread *)readyQueue.getFirst();
+    if (current == nullptr) {
+        idle = new IdleThread();
+        start(*idle);
+    }
+    else{
+        start(*current);
+    }
 }
 
 
@@ -46,6 +49,7 @@ void Scheduler::schedule () {
  *      that        Einzutragender Thread                                    *
  *****************************************************************************/
 void Scheduler::ready (Thread * that) {
+    readyQueue.addElement(that);
 
     /* hier muss Code eingefuegt werden */
 
@@ -61,8 +65,14 @@ void Scheduler::ready (Thread * that) {
  *                  nicht in der readyQueue.                                 *
  *****************************************************************************/
 void Scheduler::exit () {
-
-    /* hier muss Code eingefuegt werden */
+    Thread *current = (Thread *)readyQueue.getFirst();
+    if (current == nullptr) {
+        idle = new IdleThread();
+        start(*idle);
+    }
+    else{
+        start(*current);
+    }
 
 }
 
@@ -79,9 +89,15 @@ void Scheduler::exit () {
  *      that        Zu terminierender Thread                                 *
  *****************************************************************************/
 void Scheduler::kill (Thread * that) {
-
-    /* hier muss Code eingefuegt werden */
-
+    if (that == nullptr) {
+        return;
+    }
+    if (that == get_active()) {
+        exit();
+    }
+    else {
+        readyQueue.deleteElement(that);
+    }
 }
 
 
@@ -97,7 +113,9 @@ void Scheduler::kill (Thread * that) {
  *                           readyQueue leer.                                *
  *****************************************************************************/
 void Scheduler::yield () {
-
-    /* hier muss Code eingefuegt werden */
-
+    Thread *next = (Thread *)readyQueue.getFirst();
+    if (next != nullptr) {
+        readyQueue.addElement(get_active());
+        dispatch(*next);
+    }
 }

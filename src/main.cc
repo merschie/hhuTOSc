@@ -12,6 +12,7 @@
 #include "kernel/Globals.h"
 //#include "user/aufgabe1/KeyboardDemo.h"
 //#include "user/aufgabe4/CoroutineDemo.h"
+#include "user/aufgabe4/HelloWorldThread.h"
 extern "C" void _init_interrupts();     // in 'interrupts.asm' 
 
 void aufgabe03() {
@@ -77,6 +78,12 @@ int main() {
     //CoroutineDemo().main();
     //aufgabe03();
 
+    HelloWorldThread *hello = new HelloWorldThread();
+
+    scheduler.ready(hello);
+
+    // Scheduler für Threadverwaltung starten
+    scheduler.schedule();
         
     while (1) ; // wir kehren nicht zum Bootlader zurueck
     return 0;
