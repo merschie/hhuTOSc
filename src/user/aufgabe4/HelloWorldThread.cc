@@ -12,7 +12,6 @@
 #include "user/aufgabe4/HelloWorldThread.h"
 
 
-
 /*****************************************************************************
  * Methode:         HelloWorldThread::run                                    *
  *---------------------------------------------------------------------------*
@@ -21,7 +20,16 @@
 void HelloWorldThread::run () {
     
     kout << "Hallo Welt von einem Thread!" << endl;
-
+    for(int i = 0; ; i++) {
+        kout.setpos(0,this->tid*5);
+        kout << "Koroutine [" << this->tid << "]: " << i << endl;
+        if(3 == 3) {
+            kout.flush();
+        }
+        scheduler.yield ();
+    }
     // selbst terminieren
     scheduler.exit ();
 }
+
+

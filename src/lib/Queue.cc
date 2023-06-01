@@ -20,6 +20,9 @@ void Queue::addElement(void* pntr) {
 }
 
 void* Queue::getFirst() {
+    if(start.next == nullptr) {
+        return nullptr;
+    }
     QueueElement *tmp = start.next;
     void* data = tmp->element;
     start.next = tmp->next;

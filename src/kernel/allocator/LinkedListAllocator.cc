@@ -75,10 +75,10 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
                new_block -> next = current -> next -> next;
                //unlink current->next and show pointer to new_block
                current -> next = new_block;
-               kout << "allocating block at " << hex << to_alloc<< " with size " << dec << req_size << endl;
-               kout << "size of new block: " << dec << new_block -> size << endl;
-               kout << "adress of new block: " << hex << new_block << endl;
-               kout << "Adress of next block: " << hex << new_block -> next << endl;
+               //kout << "allocating block at " << hex << to_alloc<< " with size " << dec << req_size << endl;
+               //kout << "size of new block: " << dec << new_block -> size << endl;
+               //kout << "adress of new block: " << hex << new_block << endl;
+               //kout << "Adress of next block: " << hex << new_block -> next << endl;
                //return pointer of to_alloc + sizeof(free_block)
                return (void*) to_alloc + sizeof(free_block);
                
@@ -86,7 +86,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
           //if size is not big enough to make new block
           else if (current -> next -> size >= req_size) {
                current -> next = current -> next -> next;
-               kout << "allocating block kfeusjfilsjfiosfjat " << hex << current -> next << endl;
+               //kout << "allocating block kfeusjfilsjfiosfjat " << hex << current -> next << endl;
                return (void*) current -> next + sizeof(free_block);      
           }
          current = current->next;
@@ -107,7 +107,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
  *****************************************************************************/
 void LinkedListAllocator::free(void *ptr) {
      //recover block at ptr - sizeof(free_block)
-     kout << "freeing block at " << hex << ptr << endl;
+     //kout << "freeing block at " << hex << ptr << endl;
      free_block *block = (free_block*) ((char*) ptr - sizeof(free_block));
      
      //find last block

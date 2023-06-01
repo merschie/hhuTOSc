@@ -28,10 +28,10 @@ IdleThread *idle;
  * Beschreibung:    Scheduler starten. Wird nur einmalig aus main.cc gerufen.*
  *****************************************************************************/
 void Scheduler::schedule () {
+    idle = new IdleThread();
 
     Thread *current = (Thread *)readyQueue.getFirst();
     if (current == nullptr) {
-        idle = new IdleThread();
         start(*idle);
     }
     else{
@@ -50,9 +50,6 @@ void Scheduler::schedule () {
  *****************************************************************************/
 void Scheduler::ready (Thread * that) {
     readyQueue.addElement(that);
-
-    /* hier muss Code eingefuegt werden */
-
 }
 
 
@@ -67,7 +64,6 @@ void Scheduler::ready (Thread * that) {
 void Scheduler::exit () {
     Thread *current = (Thread *)readyQueue.getFirst();
     if (current == nullptr) {
-        idle = new IdleThread();
         start(*idle);
     }
     else{
@@ -117,5 +113,8 @@ void Scheduler::yield () {
     if (next != nullptr) {
         readyQueue.addElement(get_active());
         dispatch(*next);
+    }
+    else {
+        start(*idle);
     }
 }

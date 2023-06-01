@@ -25,6 +25,7 @@ public:
     IdleThread () : Thread () {  }
     
     void run () {
+        kout << "IdleThread gestartet!" << endl;
         while (1) {
             scheduler.yield ();
         }

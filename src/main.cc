@@ -79,8 +79,12 @@ int main() {
     //aufgabe03();
 
     HelloWorldThread *hello = new HelloWorldThread();
+    //HelloWorldThread *hello2 = new HelloWorldThread();
+    //HelloWorldThread *hello3 = new HelloWorldThread();
 
     scheduler.ready(hello);
+    //scheduler.ready(hello2);
+    //scheduler.ready(hello3);
 
     // Scheduler für Threadverwaltung starten
     scheduler.schedule();
