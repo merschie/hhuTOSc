@@ -23,9 +23,17 @@
  *                  Interrupt erzeugt werden soll.                           *
  *****************************************************************************/
 void PIT::interval (int us) {
+    uint16_t counter = us*1000/time_base;
 
-    /* hier muss Code eingefuegt werden */
-    
+
+
+
+    IOport control (0x43);
+    control.outb (0b00110110);
+    IOport data (0x40);
+    data.outb (counter & 0xff);
+    data.outb (counter >> 8);
+
 }
 
 
@@ -37,8 +45,9 @@ void PIT::interval (int us) {
  *                  Methode 'trigger' aufgerufen.                            *
  *****************************************************************************/
 void PIT::plugin () {
-
-    /* hier muss Code eingefuegt werden */
+    pic.allow (pic.timer);
+    kout << "Pit systemzeit initialisiert" << endl;
+    intdis.assign (intdis.timer, *this);
 
 }
 
@@ -52,8 +61,17 @@ void PIT::plugin () {
  *                  Variable 'forceSwitch', wird in 'int_disp' behandelt.    *
  *****************************************************************************/
 void PIT::trigger () {
+    
+    systime += 1;
 
-    /* hier muss Code eingefuegt werden */
+    if (systime%100 == 0 ){
+        int x = 0;
+        int y = 0;
+        kout.getpos(x,y);
+        kout.setpos(60,0);
+        kout << "Systime: " << systime << endl;
+        kout.setpos(x,y);
+    }
     
 }
 

@@ -54,6 +54,10 @@ int main() {
     cpu.enable_int();
 
     kout << "Koroutinen initialisiert" << endl;
+
+    pit.plugin();
+
+
     //kout.clear();
     //kout.setpos(0,0);
 /*     Queue readyqueue;
@@ -78,16 +82,16 @@ int main() {
     //CoroutineDemo().main();
     //aufgabe03();
 
-    HelloWorldThread *hello = new HelloWorldThread();
+    //HelloWorldThread *hello = new HelloWorldThread();
     //HelloWorldThread *hello2 = new HelloWorldThread();
     //HelloWorldThread *hello3 = new HelloWorldThread();
 
-    scheduler.ready(hello);
+    //scheduler.ready(hello);
     //scheduler.ready(hello2);
     //scheduler.ready(hello3);
 
     // Scheduler für Threadverwaltung starten
-    scheduler.schedule();
+    //scheduler.schedule();
         
     while (1) ; // wir kehren nicht zum Bootlader zurueck
     return 0;
