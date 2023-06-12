@@ -21,9 +21,10 @@
  *****************************************************************************/
 void BumpAllocator::init() {
      //set next to the start of the heap
+     cpu.disable_int();
      next = (unsigned char*) heap_start;
      allocations = 0;
-
+     cpu.enable_int();
 
 
      /* Hier muess Code eingefuegt werden */
@@ -56,9 +57,11 @@ void BumpAllocator::dump_free_memory() {
  * Beschreibung:    Einen neuen Speicherblock allozieren.                    * 
  *****************************************************************************/
 void * BumpAllocator::alloc(uint64_t req_size) {
+     cpu.disable_int();
      next = next + req_size;
      heap_size = heap_size - req_size;
      allocations++;
+     cpu.enable_int();
      return (void*) (next - req_size);
 }
 

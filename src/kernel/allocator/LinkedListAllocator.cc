@@ -62,6 +62,7 @@ void LinkedListAllocator::dump_free_memory() {
  * Beschreibung:    Einen neuen Speicherblock allozieren.                    * 
  *****************************************************************************/
 void * LinkedListAllocator::alloc(uint64_t  req_size) {
+     cpu.disable_int();
      
      free_block *current = free_start;
      while (current -> next != NULL) {
@@ -80,6 +81,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
                //kout << "adress of new block: " << hex << new_block << endl;
                //kout << "Adress of next block: " << hex << new_block -> next << endl;
                //return pointer of to_alloc + sizeof(free_block)
+               cpu.enable_int();
                return (void*) to_alloc + sizeof(free_block);
                
           }
@@ -87,6 +89,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
           else if (current -> next -> size >= req_size) {
                current -> next = current -> next -> next;
                //kout << "allocating block kfeusjfilsjfiosfjat " << hex << current -> next << endl;
+               cpu.enable_int();
                return (void*) current -> next + sizeof(free_block);      
           }
          current = current->next;
@@ -95,7 +98,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
      while (true)
      
      kout << "no memory left" << endl;
-          
+     cpu.enable_int();
      return NULL;
 }
 
@@ -106,6 +109,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
  * Beschreibung:    Einen Speicherblock freigeben.                           *
  *****************************************************************************/
 void LinkedListAllocator::free(void *ptr) {
+     cpu.disable_int();
      //recover block at ptr - sizeof(free_block)
      //kout << "freeing block at " << hex << ptr << endl;
      free_block *block = (free_block*) ((char*) ptr - sizeof(free_block));
@@ -118,5 +122,5 @@ void LinkedListAllocator::free(void *ptr) {
      //link last block to block
      current -> next = block;
      block -> next = NULL;
-
+     cpu.enable_int();
 }

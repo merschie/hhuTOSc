@@ -89,7 +89,9 @@ inline unsigned int PCSPK::readCounter() {
  *****************************************************************************/
 inline void PCSPK::delay (int time) {
     uint64_t toFinish = systime + time/10;
-    kout << "delay: " << time << "ms\n" << endl;
+    //need to do something, else its compiled away
+    kout.setpos(0,0);
+    kout.print("delay: ", 7, 0x0F);
     while (systime < toFinish) {
         // warten bis Zaehler abgelaufen ist
     }
