@@ -10,6 +10,7 @@
 
 #include "kernel/Globals.h"
 #include "user/aufgabe4/HelloWorldThread.h"
+#include "user/aufgabe2/SoundDemo.h"
 
 
 /*****************************************************************************
@@ -20,13 +21,21 @@
 void HelloWorldThread::run () {
     
     kout << "Hallo Welt von einem Thread!" << endl;
+    if (this->tid%2 == 0){
+        sound_demo();
+    } 
+
+    else{
     for(int i = 0; ; i++) {
+        int x = 0;
+        int y = 0;
+        cpu.disable_int();
+        kout.getpos(x,y);
         kout.setpos(0,this->tid*5);
         kout << "Koroutine [" << this->tid << "]: " << i << endl;
-        if(3 == 3) {
-            kout.flush();
-        }
-        scheduler.yield ();
+        kout.setpos(x,y);        
+        cpu.enable_int();
+    }
     }
     // selbst terminieren
     scheduler.exit ();

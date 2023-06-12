@@ -63,7 +63,6 @@ void CGA::getpos (int &x, int &y) {
  *      attrib      Attributbyte fuer das Zeichen                            *
  *****************************************************************************/
 void CGA::show (int x, int y, char character, unsigned char attrib) {
-    attrib = attribute(GREEN, BLACK, true);
     int tempx = 0;
     int tempy = 0;
     getpos(tempx, tempy);

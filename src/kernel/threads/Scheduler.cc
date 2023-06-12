@@ -22,6 +22,7 @@
 #include "kernel/Globals.h"
 
 IdleThread *idle;
+bool init = false;
 
 /*****************************************************************************
  * Methode:         Scheduler::schedule                                      *
@@ -29,6 +30,11 @@ IdleThread *idle;
  * Beschreibung:    Scheduler starten. Wird nur einmalig aus main.cc gerufen.*
  *****************************************************************************/
 void Scheduler::schedule () {
+
+    if (init) {
+        return;
+    }
+    init = true;
     idle = new IdleThread();
 
     Thread *current = (Thread *)readyQueue.getFirst();
@@ -38,6 +44,7 @@ void Scheduler::schedule () {
     else{
         start(*current);
     }
+
 }
 
 
@@ -63,6 +70,7 @@ void Scheduler::ready (Thread * that) {
  *                  nicht in der readyQueue.                                 *
  *****************************************************************************/
 void Scheduler::exit () {
+    cpu.disable_int();
     Thread *current = (Thread *)readyQueue.getFirst();
     if (current == nullptr) {
         start(*idle);
@@ -70,6 +78,7 @@ void Scheduler::exit () {
     else{
         start(*current);
     }
+    cpu.enable_int();
 
 }
 
@@ -86,6 +95,7 @@ void Scheduler::exit () {
  *      that        Zu terminierender Thread                                 *
  *****************************************************************************/
 void Scheduler::kill (Thread * that) {
+    cpu.disable_int();
     if (that == nullptr) {
         return;
     }
@@ -95,6 +105,7 @@ void Scheduler::kill (Thread * that) {
     else {
         readyQueue.deleteElement(that);
     }
+    cpu.enable_int();
 }
 
 
@@ -110,6 +121,7 @@ void Scheduler::kill (Thread * that) {
  *                           readyQueue leer.                                *
  *****************************************************************************/
 void Scheduler::yield () {
+    cpu.disable_int();
     Thread *next = (Thread *)readyQueue.getFirst();
     if (next != nullptr) {
         readyQueue.addElement(get_active());
@@ -118,6 +130,7 @@ void Scheduler::yield () {
     else {
         start(*idle);
     }
+    cpu.enable_int();
 }
 
 
@@ -130,7 +143,17 @@ void Scheduler::yield () {
  *                  handen ist.                                              *
  *****************************************************************************/
 void Scheduler::preempt () {
-
-   /* Hier muss Code eingefuegt werden */
-   
+    if (!init) {
+        return;
+    }
+    cpu.disable_int();
+    Thread *next = (Thread *)readyQueue.getFirst();
+    if (next != nullptr) {
+        readyQueue.addElement(get_active());
+        dispatch(*next);
+    }
+    else {
+        start(*idle);
+    }
+    cpu.enable_int();
 }

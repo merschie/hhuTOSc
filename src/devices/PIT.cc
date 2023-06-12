@@ -62,15 +62,19 @@ void PIT::plugin () {
  *****************************************************************************/
 void PIT::trigger () {
     
+    
+
     systime += 1;
 
+    scheduler.preempt();
+    
+
+
+
     if (systime%100 == 0 ){
-        int x = 0;
-        int y = 0;
-        kout.getpos(x,y);
-        kout.setpos(60,0);
-        kout << "Systime: " << systime << endl;
-        kout.setpos(x,y);
+        //create char arraay
+        char spinning[4]= {'|','/','-','\\'};
+        kout.show(75,1,spinning[(systime/100)%4],0x05);
     }
     
 }

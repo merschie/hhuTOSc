@@ -46,6 +46,7 @@ _coroutine_start:
     pop r10
     pop r9
     pop r8
+    sti
     ret
 
 
