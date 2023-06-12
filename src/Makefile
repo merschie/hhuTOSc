@@ -6,7 +6,7 @@
 #* Autor:           Michael Schoettner, HHU, 11.01.2023                      *
 #*****************************************************************************/
 
-BOOTDRIVE = /dev/sdb
+BOOTDRIVE = /dev/sda
 
 # -----------------------------------------------------------------------------
 # Liste der Quelltexte:
@@ -128,7 +128,7 @@ bootdisk:  $(OBJDIR)/system.iso
 # 'qemu' ruft den qemu-Emulator mit dem System auf.
 
 qemu: $(OBJDIR)/system.iso
-	qemu-system-x86_64 -cdrom $(OBJDIR)/system.iso -k en-us  -vga std
+	qemu-system-x86_64 -cdrom $(OBJDIR)/system.iso -k en-us  -vga std -audiodev driver=pa,id=pa1 -device AC97,audiodev=pa1
 
 # --------------------------------------------------------------------------
 # 'qemu-gdb' ruft den qemu-Emulator mit aktiviertem GDB-Stub mit dem System
