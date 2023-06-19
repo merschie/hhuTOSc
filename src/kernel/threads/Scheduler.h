@@ -40,7 +40,9 @@ private:
     bool  initialized;
     
 public:
-    Scheduler ();
+    Scheduler () {
+        readyQueue = Queue();
+    }
 
     // Scheduler initialisiert?
     // Zeitgeber-Unterbrechung kommt evt. bevor der Scheduler fertig
