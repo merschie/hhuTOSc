@@ -11,6 +11,7 @@
 #include "kernel/Globals.h"
 #include "user/aufgabe4/HelloWorldThread.h"
 #include "user/aufgabe2/SoundDemo.h"
+#include "lib/Semaphore.h"
 
 
 /*****************************************************************************
@@ -30,6 +31,7 @@ void HelloWorldThread::run () {
         int x = 0;
         int y = 0;
         cpu.disable_int();
+        
         kout.setpos(0,this->tid*5);
         kout << "Koroutine [" << this->tid << "]: " << i << endl;     
         cpu.enable_int();

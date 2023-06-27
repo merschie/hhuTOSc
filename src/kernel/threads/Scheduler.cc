@@ -157,3 +157,38 @@ void Scheduler::preempt () {
     }
     cpu.enable_int();
 }
+
+
+/*****************************************************************************
+ * Methode:         Scheduler::block                                         *
+ * Beschreibung:    Thread blockieren und naechsten Thread waehlen.          *
+ *                 Der aktuelle Thread muss sich selbst in eine Blockier-   *
+ *                warteschlange eintragen und dann auf den naechsten Thread *
+ *              wechseln.                                                  *
+
+ *****************************************************************************/
+
+void Scheduler::block () {
+    cpu.disable_int();
+    if(!init){
+        return;
+    }
+
+    Thread *next = (Thread *)readyQueue.getFirst();
+    if (next != nullptr) {
+        dispatch(*next);
+    }
+    else {
+        start(*idle);
+    }
+    cpu.enable_int();
+}
+
+void Scheduler::deblock (Thread &that) {
+    cpu.disable_int();
+    if(!init){
+        return;
+    }
+    ready(&that);
+    cpu.enable_int();
+}

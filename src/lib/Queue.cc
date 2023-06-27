@@ -50,3 +50,7 @@ void Queue::deleteElement(void *element) {
         current = current->next;
     }
 }
+
+bool Queue::isEmpty() {
+    return start.next == nullptr;
+}

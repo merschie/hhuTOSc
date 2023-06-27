@@ -8,7 +8,8 @@
  *                                                                           *
  * Autor:           Fabian Mersch                                            *
  *****************************************************************************/
-
+#ifndef __Queue_include__
+#define __Queue_include__
 
 
 
@@ -29,5 +30,8 @@ public:
     void addElement(void* element);
     void dump();
     void deleteElement(void* element);
+    bool isEmpty();
 };
 
+
+#endif
