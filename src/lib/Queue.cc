@@ -1,5 +1,5 @@
 #include "Queue.h"
-//#include "kernel/Globals.h"
+#include "kernel/Globals.h"
 
 Queue::Queue () {
     struct QueueElement first = QueueElement();
@@ -21,6 +21,7 @@ void Queue::addElement(void* pntr) {
 
 void* Queue::getFirst() {
     if(start.next == nullptr) {
+        //kout << "Queue is empty" << endl;
         return nullptr;
     }
     QueueElement *tmp = start.next;
@@ -32,11 +33,12 @@ void* Queue::getFirst() {
 
 void Queue::dump() {
     QueueElement *tmp = &start;
-    while (tmp->next != 0) {
-        //kout << "Data: " << tmp->element << " Next: " << tmp->next << endl;
+    int counter = 0;
+    while (tmp->next != nullptr) {
+        kout << counter << "th Data: " << tmp->element << " Next: " << tmp->next << endl;
         tmp = tmp->next;
+        counter++;
     }
-    //kout << "Data: " << tmp->element << " Next: " << tmp->next << "End!!!" << endl;
 }
 
 void Queue::deleteElement(void *element) {

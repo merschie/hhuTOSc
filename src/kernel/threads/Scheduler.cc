@@ -58,6 +58,7 @@ void Scheduler::schedule () {
  *****************************************************************************/
 void Scheduler::ready (Thread * that) {
     readyQueue.addElement(that);
+    //readyQueue.dump();
 }
 
 
@@ -73,10 +74,11 @@ void Scheduler::exit () {
     cpu.disable_int();
     Thread *current = (Thread *)readyQueue.getFirst();
     if (current == nullptr) {
+
         start(*idle);
     }
     else{
-        start(*current);
+        dispatch(*current);
     }
     cpu.enable_int();
 
@@ -122,6 +124,7 @@ void Scheduler::kill (Thread * that) {
  *****************************************************************************/
 void Scheduler::yield () {
     cpu.disable_int();
+
     Thread *next = (Thread *)readyQueue.getFirst();
     if (next != nullptr) {
         readyQueue.addElement(get_active());
@@ -143,6 +146,7 @@ void Scheduler::yield () {
  *                  handen ist.                                              *
  *****************************************************************************/
 void Scheduler::preempt () {
+    
     if (!init) {
         return;
     }

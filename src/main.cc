@@ -60,18 +60,21 @@ int main() {
 
     kout << "Koroutinen initialisiert" << endl;
 
+    
+
+
     pit.plugin();
     
 
 
     HelloWorldThread *hello = new HelloWorldThread();
-    HelloWorldThread *tetris = new HelloWorldThread();
     HelloWorldThread *hello2 = new HelloWorldThread();
     HelloWorldThread *hello3 = new HelloWorldThread();
+    HelloWorldThread *tetris = new HelloWorldThread();
     scheduler.ready(hello);
-    scheduler.ready(tetris);
     scheduler.ready(hello2);
     scheduler.ready(hello3);
+    scheduler.ready(tetris);
     scheduler.schedule();
         
     while (1) ; // wir kehren nicht zum Bootlader zurueck

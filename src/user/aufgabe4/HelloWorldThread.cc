@@ -11,8 +11,11 @@
 #include "kernel/Globals.h"
 #include "user/aufgabe4/HelloWorldThread.h"
 #include "user/aufgabe2/SoundDemo.h"
+
 #include "lib/Semaphore.h"
 
+
+static Semaphore sem (1);
 
 /*****************************************************************************
  * Methode:         HelloWorldThread::run                                    *
@@ -21,23 +24,20 @@
  *****************************************************************************/
 void HelloWorldThread::run () {
     
-    kout << "Hallo Welt von einem Thread!" << endl;
-    if (this->tid == 2){
+    if (this->tid == 1){
         sound_demo();
     } 
 
     else{
     for(int i = 0; ; i++) {
-        int x = 0;
-        int y = 0;
-        cpu.disable_int();
-        
+        sem.p();
         kout.setpos(0,this->tid*5);
-        kout << "Koroutine [" << this->tid << "]: " << i << endl;     
-        cpu.enable_int();
+        kout << "Koroutine [" << this->tid << "]: " << i << endl;
+        sem.v();     
     }
     }
     // selbst terminieren
+    kout << "Thread [" << this->tid << "] beendet sich selbst." << endl;
     scheduler.exit ();
 }
 

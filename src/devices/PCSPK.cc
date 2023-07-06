@@ -94,8 +94,10 @@ inline void PCSPK::delay (int time) {
     int *i;
     i = new int;
     delete i;
-
-
+    cpu.disable_int();
+    kout.setpos(60,3);
+    kout << "delay: " << time << "ms" << endl;
+    cpu.enable_int();
 
 
     while (systime < toFinish) {
