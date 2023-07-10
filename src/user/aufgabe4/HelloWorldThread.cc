@@ -26,8 +26,7 @@ void HelloWorldThread::run () {
     
     if (this->tid == 1){
         sound_demo();
-    } 
-
+    }
     else{
     for(int i = 0; ; i++) {
         sem.p();

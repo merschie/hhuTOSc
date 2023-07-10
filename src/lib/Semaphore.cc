@@ -5,12 +5,16 @@
 
 void Semaphore::p(){
     lock.acquire();
-    if(counter > 0){
+    bool more = counter > 0;
+    if(more){
         counter--;  
+        lock.release();
     }else{
         waitQueue.addElement(scheduler.get_active());
+        lock.release();
+        scheduler.block();
     }
-    lock.release();
+
 }
 
 void Semaphore::v(){
@@ -19,7 +23,7 @@ void Semaphore::v(){
         counter++;
     }else{
         Thread* next = (Thread *) waitQueue.getFirst();
-        scheduler.dispatch(*next);
+        scheduler.deblock(*next);
     }
     lock.release();
 }

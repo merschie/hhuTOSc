@@ -177,7 +177,6 @@ void Scheduler::block () {
     if(!init){
         return;
     }
-
     Thread *next = (Thread *)readyQueue.getFirst();
     if (next != nullptr) {
         dispatch(*next);
@@ -190,9 +189,6 @@ void Scheduler::block () {
 
 void Scheduler::deblock (Thread &that) {
     cpu.disable_int();
-    if(!init){
-        return;
-    }
     ready(&that);
     cpu.enable_int();
 }
