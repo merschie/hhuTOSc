@@ -14,7 +14,7 @@
 #include "user/aufgabe2/SoundDemo.h"
 //#include "user/aufgabe4/CoroutineDemo.h"
 #include "user/aufgabe4/HelloWorldThread.h"
-
+#include "user/MainMenu/menu.h"
 
 
 
@@ -42,40 +42,38 @@ int main() {
     kout.clear();
     kout.setpos(0,0);
     kout.print("MerschOs\n",10,0x05);
+
     // Heapverwaltung initialisieren
     allocator.init();
     kout << "Heap initialisiert" << endl;
+
     // IDT & PIC initialisieren
     _init_interrupts();     // in 'interrupts.asm' 
     kout << "Interrupts initialisiert" << endl;
 
     // Tastatur-Unterbrechungsroutine 'einstoepseln'
-
     kb.plugin();
     kout << "Tastatur initialisiert" << endl;
 
     // Interrupt-Verarbeitung durch CPU erlauben 
-
     cpu.enable_int();
+    kout << "Threads laufen jetzt" << endl;
 
-    kout << "Koroutinen initialisiert" << endl;
-
-    
-
-
+    //Systemzeit initialisieren
     pit.plugin();
-    
+    kout << "Systemzeit initialisiert" << endl;
 
 
+    //create Threads for showing
     HelloWorldThread *hello = new HelloWorldThread();
     HelloWorldThread *hello2 = new HelloWorldThread();
     HelloWorldThread *hello3 = new HelloWorldThread();
-    HelloWorldThread *tetris = new HelloWorldThread();
     scheduler.ready(hello);
     scheduler.ready(hello2);
     scheduler.ready(hello3);
-    scheduler.ready(tetris);
-    scheduler.schedule();
+
+    kout << endl << "Druecke 0 fuer das Auswahlmenue" << endl;
+
         
     while (1) ; // wir kehren nicht zum Bootlader zurueck
     return 0;

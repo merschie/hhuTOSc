@@ -10,6 +10,7 @@
 
 #include "devices/Keyboard.h"
 #include "kernel/Globals.h"
+#include "user/MainMenu/menu.h"
 
 /* Tabellen fuer ASCII-Codes (Klassenvariablen) intiialisieren */
 
@@ -261,9 +262,10 @@ void Keyboard::plugin() {
 void Keyboard::trigger() {
     Key key = key_hit();
     if (key.valid()) {;
-        kout.show(75,2,key,0x07);
+        kout.show(75,2,lastkey,0x07);
     }
-    
+
+    menu(lastkey);
 }
 
 

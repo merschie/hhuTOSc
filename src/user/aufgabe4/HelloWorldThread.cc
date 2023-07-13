@@ -24,17 +24,17 @@ static Semaphore sem (1);
  *****************************************************************************/
 void HelloWorldThread::run () {
     
-    if (this->tid == 1){
+    /* if (this->tid == 1){
         sound_demo();
-    }
-    else{
+    } 
+    else{*/
     for(int i = 0; ; i++) {
         sem.p();
         kout.setpos(0,this->tid*5);
         kout << "Koroutine [" << this->tid << "]: " << i << endl;
         sem.v();     
     }
-    }
+    //}
     // selbst terminieren
     kout << "Thread [" << this->tid << "] beendet sich selbst." << endl;
     scheduler.exit ();

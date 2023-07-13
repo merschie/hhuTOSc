@@ -30,8 +30,5 @@ void text_demo() {
    kout << "| " << bin << i << endl;
    kout.setpos(x+23,y);
    kout << "|" << endl;
-
-      
    }
-   
    }

@@ -25,7 +25,6 @@
 
 void heap_demo() {
     //init the heap
-    allocator.init();
     allocator.dump_free_memory();
     kout.print("Allocate 128 bits\n",19,0x0F);
     char* testString = (char*) allocator.alloc(1024);
