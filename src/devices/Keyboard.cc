@@ -79,6 +79,18 @@ bool Keyboard::key_decoded () {
     if (code & break_bit) {
         code &= ~break_bit;     // Der Break-Code einer Taste ist gleich dem
                                 // Make-Code mit gesetzten break_bit.
+        if(code==0x48){
+            up = false;
+        }
+        if(code==0x50){
+            down = false;
+        }
+        if(code==0x11){
+            w = false;
+        }
+        if(code==0x1f){
+            s = false;
+        }
         switch (code) {
             case 42:
             case 54:
@@ -113,6 +125,18 @@ bool Keyboard::key_decoded () {
     // und Scancode eingetragen und ein 'true' fuer eine erfolgreiche
     // Tastaturabfrage zurueckgegeben, obwohl genaugenommen noch der Break-
     // code der Taste fehlt.
+    if (code == 0x48){
+        up = true;
+    }
+    if (code == 0x50){
+        down = true;
+    }
+    if (code == 0x11){
+        w = true;
+    }
+    if (code == 0x1f){
+        s = true;
+    }
 
     switch (code) {
         case 42:
@@ -261,9 +285,21 @@ void Keyboard::plugin() {
 
 void Keyboard::trigger() {
     Key key = key_hit();
-    if (key.valid()) {;
-        kout.show(75,2,lastkey,0x07);
+    if(code == 0x13){
+        gDemo->restart();
     }
+    /*if(code == 0x50){
+        gDemo->rBarDown();
+    }
+    if(code == 0x11){
+        gDemo->lBarUp();
+    }
+    if(code == 0x1f){
+        gDemo->lBarDown();
+    } */
+/*     if (key.valid()) {;
+        kout.show(75,2,lastkey,0x07);
+    } */
 
     //menu(lastkey);
 }

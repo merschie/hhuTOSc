@@ -27,7 +27,11 @@ class Key {
             ctrl_right  = 16,
             caps_lock   = 32,
             num_lock    = 64,
-            scroll_lock = 128
+            scroll_lock = 128,
+            arrow_up    = 256,
+            arrow_down  = 512,
+            w_key       = 1024,
+            s_key       = 2048
         };
     };
 
@@ -84,6 +88,7 @@ public:
         modi = pressed ? modi | mbit::scroll_lock : modi & ~mbit::scroll_lock;
     }
 
+
     //
     // Funktionen zum Abfragen von SHIFT, ALT, CTRL usw.
     //
@@ -97,6 +102,7 @@ public:
     bool scroll_lock () { return modi & mbit::scroll_lock;      }
     bool alt ()         { return alt_left ()  | alt_right ();   }
     bool ctrl ()        { return ctrl_left () | ctrl_right ();  }
+
 
     operator char ()    { return (char) asc; }
 

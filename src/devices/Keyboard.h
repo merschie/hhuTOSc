@@ -24,7 +24,7 @@ private:
 
     uint8_t code;           // Byte von Tastatur
     uint8_t prefix;         // Prefix von Tastatur
-    Key gather;             // letzter dekodierter Key
+
     char leds;              // Zustand LEDs
 
     // Benutzte Ports des Tastaturcontrollers
@@ -73,7 +73,6 @@ public:
 
    // Initialisierung der Tastatur.
    Keyboard ();
-
    // Tastaturabfrage (vorerst Polling)
    // Sollte nicht mehr verwendet werden, daher auskommentieren
    Key key_hit ();
@@ -92,6 +91,13 @@ public:
 
    // Unterbrechnungsroutine der Tastatur.
    void trigger ();
+
+    Key gather;             // letzter dekodierter Key
+    bool up;
+    bool down;
+    bool w;
+    bool s;
+
 
 };
 

@@ -5,7 +5,7 @@
  *---------------------------------------------------------------------------*
  * Beschreibung:    Graphicdemo.                                             *
  *                                                                           *
- * Autor:           Michael Schoettner, HHU, 26.6.2023                       *
+ * Autor:           Michael Schoettner, HHU, 26.6.wallOffset23                       *
  *****************************************************************************/
 
 #include "devices/VGA.h"
@@ -73,7 +73,79 @@ void GraphicDemo::drawCircle(int x, int y, int radius, int color){
 }
 
 
+void GraphicDemo::lBarUp(){
+    
+    lBarx -= barSpeed;
+    //draw background where bar was, but only the part where it is not anymore
+    drawRect(wallOffset,lBarx+barHeight,barWidth,barSpeed,backgroundColor);
+    //draw bar, but only the part that is new
+    drawRect(wallOffset,lBarx,barWidth,barSpeed,barColor);
+    
+}
 
+void GraphicDemo::lBarDown(){
+    lBarx += barSpeed;
+    drawRect(wallOffset,lBarx-barSpeed,barWidth,barSpeed,backgroundColor);
+    drawRect(wallOffset,lBarx+barHeight-barSpeed,barWidth,barSpeed,barColor);
+}
+
+void GraphicDemo::rBarUp(){
+    rBarx -= barSpeed;
+    drawRect(kout.xres-wallOffset-barWidth,rBarx+barHeight,barWidth,barSpeed,backgroundColor);
+    drawRect(kout.xres-wallOffset-barWidth,rBarx,barWidth,barSpeed,barColor);
+}
+
+void GraphicDemo::rBarDown(){
+    rBarx += barSpeed;
+    drawRect(kout.xres-wallOffset-barWidth,rBarx-barSpeed,barWidth,barSpeed,backgroundColor);
+    drawRect(kout.xres-wallOffset-barWidth,rBarx+barHeight-barSpeed,barWidth,barSpeed,barColor);
+}
+
+
+
+void GraphicDemo::update(){
+    //update ball
+    drawCircle(Ballx,Bally,ballRadius,backgroundColor);
+    Bally += Ballvy;
+    Ballx += Ballvx;
+    drawCircle(Ballx,Bally,ballRadius,ballColor);
+    //check collision
+    if (Bally >= lBarx && Bally <= lBarx+barHeight && Ballx <= wallOffset+barWidth+ballRadius){
+        Ballvx *= -1;
+        Ballvy = (Bally-lBarx-barHeight/2)/10;
+        if (Ballvx < 0){
+            Ballvx = Ballvx-1;
+        }else{
+            Ballvx = Ballvx+1;
+        }
+    }
+    if (Bally >= rBarx && Bally <= rBarx+barHeight && Ballx >= kout.xres-wallOffset-barWidth-ballRadius){
+        Ballvx *= -1;
+        if (Ballvx < 0){
+            Ballvx = Ballvx-1;
+        }else{
+            Ballvx = Ballvx+1;
+        }
+        Ballvy = (Bally-rBarx-barHeight/2)/10;
+    }
+
+    if (Bally <= ballRadius || Bally >= kout.yres-ballRadius){
+        Ballvy *= -1;
+    }
+    if (Ballx <= ballRadius || Ballx >= kout.xres-ballRadius){
+        Ballvx =0;
+        Ballvy =0;
+    }
+}
+
+void GraphicDemo::restart(){
+    Ballx = kout.xres/2;
+    Bally = kout.yres/2;
+    Ballvx = systime%2 == 0 ? 10 : -10;
+    Ballvy = systime%10;
+    drawCircle(Ballx,Bally,ballRadius,ballColor);
+    bool lost = false;
+}
 
 
 
@@ -84,21 +156,25 @@ void GraphicDemo::drawCircle(int x, int y, int radius, int color){
  *****************************************************************************/
 void GraphicDemo::run () {
     kout.clear ();
+    Ballx = kout.xres/2;
+    Bally = kout.yres/2;
+    Ballvx = systime%2 == 0 ? 10 : -10;
+    Ballvy = systime%10;
 
     // Farbverlauf zeichnen  
     for (uint32_t y=0; y < kout.yres; y++) {
         for (uint32_t x=0; x < kout.xres; x++) {
-            kout.drawPixel(x, y, 0x0000FF);
+            kout.drawPixel(x, y, backgroundColor);
         }
     }
     
 
     // Rechteck zeichnen
-    drawRect(20,20,50,200,0x00FF00);
-    drawRect(kout.xres-20-50,20,50,200,0x00FF00);
-    drawCircle(kout.xres/2,kout.yres/2,15,0xFF0000);
+    drawRect(wallOffset,wallOffset,barWidth,barHeight,barColor);
+    drawRect(kout.xres-wallOffset-barWidth,wallOffset,barWidth,barHeight,barColor);
+    //drawCircle(kout.xres/2,kout.yres/2,ballRadius,ballColor);
     
-    //kout.drawBitmap(20,100,hhu.width,hhu.height, (unsigned char*) hhu.pixel_data, hhu.bytes_per_pixel);
+    //kout.drawBitmap(wallOffset,barSpeed0,hhu.width,hhu.height, (unsigned char*) hhu.pixel_data, hhu.bytes_per_pixel);
     
     // selbst terminieren
     

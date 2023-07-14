@@ -68,14 +68,27 @@ void PIT::trigger () {
 
     scheduler.preempt();
     
+
     gDemo->update();
+    if(kb.up){
+        gDemo->rBarUp();
+    }
+    if(kb.down){
+        gDemo->rBarDown();
+    }
+    if(kb.w){
+        gDemo->lBarUp();
+    }
+    if(kb.s){
+        gDemo->lBarDown();
+    }
 
-
-/*     if (systime%100 == 0 ){
+    //if (systime%1 == 0 ){
+        
         //create char arraay
-        char spinning[4]= {'|','/','-','\\'};
-        kout.show(75,1,spinning[(systime/100)%4],0x05);
-    } */
+        //char spinning[4]= {'|','/','-','\\'};
+        //kout.show(75,1,spinning[(systime/100)%4],0x05);
+    //}
     
 }
 

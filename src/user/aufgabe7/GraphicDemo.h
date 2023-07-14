@@ -17,6 +17,16 @@
 class GraphicDemo : public Thread {
     
 private:
+    int barWidth = 50;
+    int barHeight = 200;
+    int ballRadius = 15;
+    int ballColor = 0xFF0000;
+    int barColor = 0x00FF00;
+    int backgroundColor = 0x0000FF;
+    int wallOffset = 35;
+    int barSpeed = 15;
+
+    bool lost = false;
     GraphicDemo (const GraphicDemo &copy); // Verhindere Kopieren
     
     int linInterPol1D(int x, int xr, int l, int r);
@@ -42,6 +52,7 @@ public:
     void lBarDown();
     void rBarUp();
     void rBarDown();
+    void restart();
  };
 
 #endif
