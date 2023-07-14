@@ -23,7 +23,7 @@
 #include "kernel/threads/Scheduler.h"
 #include "devices/PIT.h"
 #include "devices/VGA_Stream.h"
-
+#include "user/aufgabe7/GraphicDemo.h"
 
 extern CPU                  cpu;        
 extern PCSPK                pcspk;      // PC-Lautsprecher
@@ -37,5 +37,7 @@ extern PIC                  pic;        // Interrupt-Controller
 extern Keyboard             kb;         // Tastatur
 extern Scheduler            scheduler;  // Scheduler
 extern PIT                  pit;        // Zeitgeber & Systemtime
-
+extern uint64_t              systime;    // wird all 10ms hochgezaehlt
+extern unsigned int                 ThreadIdCounter; //aktuelle ThreadID
+extern GraphicDemo          *gDemo;     //GraphicDemo
 #endif

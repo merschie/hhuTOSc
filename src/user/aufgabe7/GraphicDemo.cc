@@ -41,6 +41,43 @@ int GraphicDemo::linInterPol2D(int x, int y, int lt, int rt, int lb, int rb) {
 
 
 /*****************************************************************************
+ * Methode:         GraphicDemo::drawRect                                    *
+ *---------------------------------------------------------------------------*
+ * Beschreibung:    Rechteck zeichnen.                                       *
+ *****************************************************************************/
+void GraphicDemo::drawRect(int x, int y, int width, int height, int color){
+    for(int i = 0; i < width; i++){
+        for(int j = 0; j < height; j++){
+            kout.drawPixel(x+i,y+j,color);
+        }
+    }
+}
+
+
+/*****************************************************************************
+ * Methode:         GraphicDemo::drawCircle                                  *
+ *---------------------------------------------------------------------------*
+ * Beschreibung:    Kreis zeichnen.                                          *
+ *****************************************************************************/
+void GraphicDemo::drawCircle(int x, int y, int radius, int color){
+    for(int i = 0; i < radius; i++){
+        for(int j = 0; j < radius; j++){
+            if(i*i+j*j <= radius*radius){
+                kout.drawPixel(x+i,y+j,color);
+                kout.drawPixel(x-i,y+j,color);
+                kout.drawPixel(x+i,y-j,color);
+                kout.drawPixel(x-i,y-j,color);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+/*****************************************************************************
  * Methode:         GraphicDemo::run                                         *
  *---------------------------------------------------------------------------*
  * Beschreibung:    Hauptthread der Anwendung.                               *
@@ -51,16 +88,22 @@ void GraphicDemo::run () {
     // Farbverlauf zeichnen  
     for (uint32_t y=0; y < kout.yres; y++) {
         for (uint32_t x=0; x < kout.xres; x++) {
-            kout.drawPixel(x, y, linInterPol2D(x, y, 0x0000FF, 0x00FF00, 0xFF0000, 0xFFFF00));
+            kout.drawPixel(x, y, 0x0000FF);
         }
     }
-
-    kout << "hhuTOS 0.7" << endl;
-    kout << "==========" << endl << endl;
-    kout << "Wir sind jetzt im Grafikmodus!" << endl;
     
-    kout.drawBitmap(20,100,hhu.width,hhu.height, (unsigned char*) hhu.pixel_data, hhu.bytes_per_pixel);
+
+    // Rechteck zeichnen
+    drawRect(20,20,50,200,0x00FF00);
+    drawRect(kout.xres-20-50,20,50,200,0x00FF00);
+    drawCircle(kout.xres/2,kout.yres/2,15,0xFF0000);
+    
+    //kout.drawBitmap(20,100,hhu.width,hhu.height, (unsigned char*) hhu.pixel_data, hhu.bytes_per_pixel);
     
     // selbst terminieren
+    
+}
+
+void GraphicDemo::close(){
     scheduler.exit ();
 }

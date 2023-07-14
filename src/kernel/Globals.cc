@@ -22,4 +22,6 @@ PIC                   pic;        // Interrupt-Controller
 Keyboard              kb;         // Tastatur
 Scheduler             scheduler;  // Scheduler
 PIT                   pit(10000); // Zeitgeber (10ms) & Systemtime
-
+uint64_t              systime=0;  // wird all 10ms hochgezaehlt
+unsigned int          ThreadIdCounter=1;    //aktuelle ThreadID
+GraphicDemo           *gDemo;     //GraphicDemo
