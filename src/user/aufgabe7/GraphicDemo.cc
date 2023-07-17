@@ -118,6 +118,7 @@ void GraphicDemo::update(){
         }else{
             Ballvx = Ballvx+1;
         }
+        drawRect(wallOffset,lBarx,barWidth,barHeight,barColor);
     }
     if (Bally >= rBarx && Bally <= rBarx+barHeight && Ballx >= kout.xres-wallOffset-barWidth-ballRadius){
         Ballvx *= -1;
@@ -127,24 +128,30 @@ void GraphicDemo::update(){
             Ballvx = Ballvx+1;
         }
         Ballvy = (Bally-rBarx-barHeight/2)/10;
+        drawRect(kout.xres-wallOffset-barWidth,rBarx,barWidth,barHeight,barColor);
     }
 
     if (Bally <= ballRadius || Bally >= kout.yres-ballRadius){
         Ballvy *= -1;
     }
     if (Ballx <= ballRadius || Ballx >= kout.xres-ballRadius){
-        Ballvx =0;
-        Ballvy =0;
+        lost=true;
+        Ballvx = 0;
+        Ballvy = 0;
     }
 }
 
 void GraphicDemo::restart(){
+    if (!lost){
+       return;
+    }
+    lost = false;
     Ballx = kout.xres/2;
     Bally = kout.yres/2;
     Ballvx = systime%2 == 0 ? 10 : -10;
     Ballvy = systime%10;
     drawCircle(Ballx,Bally,ballRadius,ballColor);
-    bool lost = false;
+    
 }
 
 
@@ -161,12 +168,13 @@ void GraphicDemo::run () {
     Ballvx = systime%2 == 0 ? 10 : -10;
     Ballvy = systime%10;
 
-    // Farbverlauf zeichnen  
+    // hintergrund zeichnen
     for (uint32_t y=0; y < kout.yres; y++) {
         for (uint32_t x=0; x < kout.xres; x++) {
             kout.drawPixel(x, y, backgroundColor);
         }
     }
+    lost=false;
     
 
     // Rechteck zeichnen
