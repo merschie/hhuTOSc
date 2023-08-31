@@ -75,6 +75,7 @@ void * LinkedListAllocator::alloc(uint64_t  req_size) {
 
                new_block -> next = current -> next -> next;
                //unlink current->next and show pointer to new_block
+               current -> next -> size = req_size;
                current -> next = new_block;
                //kout << "allocating block at " << hex << to_alloc<< " with size " << dec << req_size << endl;
                //kout << "size of new block: " << dec << new_block -> size << endl;
