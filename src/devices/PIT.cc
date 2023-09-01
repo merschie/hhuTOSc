@@ -66,15 +66,22 @@ void PIT::trigger () {
 
     systime += 1;
 
-    scheduler.preempt();
+    
     
 
 
 
     if (systime%100 == 0 ){
         //create char arraay
+        
         char spinning[4]= {'|','/','-','\\'};
-        kout.show(75,1,spinning[(systime/100)%4],0x05);
+        if (aufgabe<4){
+            kout.show(75,1,spinning[(systime/100)%4],0x05);
+        }
+        
+    }
+    else{
+        scheduler.preempt();
     }
     
 }

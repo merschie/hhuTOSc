@@ -31,4 +31,13 @@ void text_demo() {
    kout.setpos(x+23,y);
    kout << "|" << endl;
    }
+   kout << "   ---------------------" << endl;
+   kout << "Zeilenumbruch" << endl;
+   kout << "Zeilenumbruch" << endl;
+   kout << "Zeilenumbruch" << endl;
+   kout << "Zeilenumbruch" << endl;
+   kout << "Zeilenumbruch" << endl;
+   kout << "Zeilenumbruch" << endl;
+   kout << "Zeilenumbruch" << endl;
+
    }

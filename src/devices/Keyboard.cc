@@ -260,12 +260,20 @@ void Keyboard::plugin() {
 }
 
 void Keyboard::trigger() {
+    int last = lastkey;
+
     Key key = key_hit();
     if (key.valid()) {;
+        if(last == lastkey) {
+            return;
+        }
+        cpu.disable_int();
         kout.show(75,2,lastkey,0x07);
-    }
-
+        cpu.enable_int();
+    
+    
     menu(lastkey);
+    }
 }
 
 

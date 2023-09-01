@@ -64,13 +64,7 @@ int main() {
     kout << "Systemzeit initialisiert" << endl;
 
 
-    //create Threads for showing
-    HelloWorldThread *hello = new HelloWorldThread();
-    HelloWorldThread *hello2 = new HelloWorldThread();
-    HelloWorldThread *hello3 = new HelloWorldThread();
-    scheduler.ready(hello);
-    scheduler.ready(hello2);
-    scheduler.ready(hello3);
+
 
     kout << endl << "Druecke 0 fuer das Auswahlmenue" << endl;
 

@@ -9,7 +9,7 @@
  *****************************************************************************/
 
 #include "kernel/Globals.h"
-#include "user/aufgabe4/HelloWorldThread.h"
+#include "user/aufgabe4/SoundThread.h"
 #include "user/aufgabe2/SoundDemo.h"
 
 #include "lib/Semaphore.h"
@@ -22,19 +22,10 @@ static Semaphore sem (1);
  *---------------------------------------------------------------------------*
  * Beschreibung:    Einstiegsfunktion in unseren Thread.                     *
  *****************************************************************************/
-void HelloWorldThread::run () {
+void SoundThread::run () {
     
-
-    for(int i = 0; ; i++) {
-        sem.p();
-        kout.setpos(0,this->tid*5);
-        kout << "Thread [" << this->tid << "]: " << i << endl;
-        sem.v();     
-    }
-    //}
-    // selbst terminieren
-    kout << "Thread [" << this->tid << "] beendet sich selbst." << endl;
-    scheduler.exit ();
+    sound_demo();
+    
 }
 
 

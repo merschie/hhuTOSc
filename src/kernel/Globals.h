@@ -36,4 +36,5 @@ extern unsigned int          total_mem;  // RAM total
 extern LinkedListAllocator   allocator;
 extern Scheduler             scheduler;  // Scheduler
 extern unsigned int                 ThreadIdCounter; //aktuelle ThreadID
+extern unsigned int                 aufgabe; //aktuelle aufgabe
 #endif

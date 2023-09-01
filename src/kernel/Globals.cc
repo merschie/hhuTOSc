@@ -23,4 +23,5 @@ unsigned int          total_mem;  // RAM total
 LinkedListAllocator   allocator;
 Scheduler             scheduler;  // Scheduler
 unsigned int          ThreadIdCounter=1;    //aktuelle ThreadID
+unsigned int          aufgabe=0;      //aktuelle ThreadID
 
