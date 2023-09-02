@@ -57,7 +57,9 @@ void Scheduler::schedule () {
  *      that        Einzutragender Thread                                    *
  *****************************************************************************/
 void Scheduler::ready (Thread * that) {
+    cpu.disable_int();
     readyQueue.addElement(that);
+    cpu.enable_int();
     //readyQueue.dump();
 }
 
